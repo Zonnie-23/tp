@@ -9,8 +9,8 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.jobapplication.Remark;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Remark;
 
 /**
  * Changes the remark of an existing person in the address book
@@ -54,8 +54,7 @@ public class RemarkCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = new Person(
                 personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
-                personToEdit.getAddress(), personToEdit.getJobTitle(), personToEdit.getSchedule(),
-                personToEdit.getLabel(), remark, personToEdit.getTags());
+                personToEdit.getAddress(), personToEdit.getTags(), personToEdit.getJobApplcations());
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.jobapplication.Remark;
+
 public class RemarkTest {
     @Test
     public void equals() {

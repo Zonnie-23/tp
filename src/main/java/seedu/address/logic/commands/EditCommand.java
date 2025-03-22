@@ -25,15 +25,12 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.jobapplication.JobApplication;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.JobTitle;
-import seedu.address.model.person.Label;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.Remark;
-import seedu.address.model.person.Schedule;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -94,14 +91,18 @@ public class EditCommand extends Command {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+        // currently disable editing all application related editing
+        /*
         JobTitle updatedJobTitle = editPersonDescriptor.getJobTitle().orElse(personToEdit.getJobTitle());
         Schedule updatedSchedule = editPersonDescriptor.getSchedule().orElse(personToEdit.getSchedule());
         Label updatedLabel = editPersonDescriptor.getLabel().orElse(personToEdit.getLabel());
         Remark updatedRemark = editPersonDescriptor.getRemark().orElse(personToEdit.getRemark());
+         */
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Set<JobApplication> updatedJobApplications = editPersonDescriptor.getJobApplications()
+                .orElse(personToEdit.getJobApplcations());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedJobTitle, updatedSchedule,
-            updatedLabel, updatedRemark, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, updatedJobApplications);
     }
 
     @Override
@@ -158,11 +159,8 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
-        private JobTitle jobTitle;
-        private Schedule schedule;
-        private Remark remark;
+        private Set<JobApplication> jobApplications;
         private Set<Tag> tags;
-        private Label label;
 
         public EditPersonDescriptor() {
         }
@@ -176,10 +174,7 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
-            setLabel(toCopy.label);
-            setJobTitle(toCopy.jobTitle);
-            setSchedule(toCopy.schedule);
-            setRemark(toCopy.remark);
+            setJobApplications(toCopy.jobApplications);
             setTags(toCopy.tags);
         }
 
@@ -187,7 +182,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, jobTitle, schedule, label, remark, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
         }
 
         public void setName(Name name) {
@@ -222,36 +217,22 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
-        public void setLabel(Label label) {
-            this.label = label;
+        /**
+         * Sets {@code tags} to this object's {@code tags}.
+         * A defensive copy of {@code tags} is used internally.
+         */
+        public void setJobApplications(Set<JobApplication> jobApplications) {
+            this.jobApplications = (jobApplications != null) ? new HashSet<>(jobApplications) : null;
         }
 
-        public Optional<Label> getLabel() {
-            return Optional.ofNullable(label);
-        }
-
-        public void setJobTitle(JobTitle jobTitle) {
-            this.jobTitle = jobTitle;
-        }
-
-        public Optional<JobTitle> getJobTitle() {
-            return Optional.ofNullable(jobTitle);
-        }
-
-        public void setSchedule(Schedule schedule) {
-            this.schedule = schedule;
-        }
-
-        public Optional<Schedule> getSchedule() {
-            return Optional.ofNullable(schedule);
-        }
-
-        public void setRemark(Remark remark) {
-            this.remark = remark;
-        }
-
-        public Optional<Remark> getRemark() {
-            return Optional.ofNullable(remark);
+        /**
+         * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
+         * if modification is attempted.
+         * Returns {@code Optional#empty()} if {@code tags} is null.
+         */
+        public Optional<Set<JobApplication>> getJobApplications() {
+            return (jobApplications != null) ? Optional.of(Collections.unmodifiableSet(jobApplications))
+                    : Optional.empty();
         }
 
         /**
@@ -287,10 +268,7 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(label, otherEditPersonDescriptor.label)
-                    && Objects.equals(jobTitle, otherEditPersonDescriptor.jobTitle)
-                    && Objects.equals(schedule, otherEditPersonDescriptor.schedule)
-                    && Objects.equals(remark, otherEditPersonDescriptor.remark)
+                    && Objects.equals(jobApplications, otherEditPersonDescriptor.jobApplications)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags);
         }
 
@@ -301,10 +279,11 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
-                    .add("applied job title", jobTitle)
-                    .add("interview date", schedule)
-                    .add("label", label)
-                    .add("remark", remark)
+                    // Disabled for now
+                    //.add("applied job title", jobTitle)
+                    //.add("interview date", schedule)
+                    //.add("label", label)
+                    //.add("remark", remark)
                     .add("tags", tags)
                     .toString();
         }

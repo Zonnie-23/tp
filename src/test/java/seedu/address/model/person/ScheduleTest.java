@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.jobapplication.Schedule;
+
 public class ScheduleTest {
 
     @Test

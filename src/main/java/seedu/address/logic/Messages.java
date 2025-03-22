@@ -43,14 +43,14 @@ public class Messages {
                 .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
-                .append("; Applied Job Title: ")
-                .append(person.getJobTitle())
-                .append("; Interview Date: ")
-                .append("'").append(person.getSchedule()).append("'")
-                .append("; Label: ")
-                .append(person.getLabel())
-                .append("; Remark: ")
-                .append("'").append(person.getRemark()).append("'")
+                //.append("; Applied Job Title: ")
+                //.append(person.getJobTitle())
+                //.append("; Interview Date: ")
+                //.append("'").append(person.getSchedule()).append("'")
+                //.append("; Label: ")
+                //.append(person.getLabel())
+                //.append("; Remark: ")
+                //.append("'").append(person.getRemark()).append("'")
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();

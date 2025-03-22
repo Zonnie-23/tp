@@ -65,6 +65,8 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+        // View command would display these
+        /*
         label.setText(person.getLabel().value);
         jobTitle.setText(person.getJobTitle().value);
         String scheduleValue = person.getSchedule().value;
@@ -77,6 +79,7 @@ public class PersonCard extends UiPart<Region> {
             Label remarkLabel = createLabel(String.format(MESSAGE_REMARK, remarkValue));
             remark.getChildren().addAll(remarkLabel);
         }
+         */
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

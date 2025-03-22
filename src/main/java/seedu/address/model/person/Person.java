@@ -8,6 +8,11 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.jobapplication.JobApplication;
+import seedu.address.model.jobapplication.JobTitle;
+import seedu.address.model.jobapplication.Label;
+import seedu.address.model.jobapplication.Remark;
+import seedu.address.model.jobapplication.Schedule;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -23,11 +28,36 @@ public class Person {
     private final Address address;
 
     // Data fields
-    private final Schedule schedule;
-    private final JobTitle jobTitle;
-    private final Label label;
-    private final Remark remark;
+    private final Set<JobApplication> jobApplications = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
+
+    /**
+     * Every field must be present and not null.
+     * To create a person without adding job applications
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+    }
+
+    /**
+     * Every field must be present and not null.
+     * To create a copy of a person
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                    Set<JobApplication> jobApplications) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        this.jobApplications.addAll(jobApplications);
+    }
 
     /**
      * Every field must be present and not null.
@@ -39,11 +69,8 @@ public class Person {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.schedule = schedule;
-        this.jobTitle = jobTitle;
-        this.label = label;
-        this.remark = remark;
         this.tags.addAll(tags);
+        this.jobApplications.add(new JobApplication(this, jobTitle, schedule, label, remark));
     }
 
     public Name getName() {
@@ -62,28 +89,27 @@ public class Person {
         return address;
     }
 
-    public Label getLabel() {
-        return label;
-    }
-
-    public JobTitle getJobTitle() {
-        return jobTitle;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public Remark getRemark() {
-        return remark;
-    }
-
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<JobApplication> getJobApplcations() {
+        return Collections.unmodifiableSet(jobApplications);
+    }
+
+    /**
+     *
+     */
+    public void addJobApplication(JobApplication jobApplication) {
+        jobApplications.add(jobApplication);
     }
 
     /**
@@ -120,14 +146,13 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags)
-                && label.equals(otherPerson.label)
-                && jobTitle.equals(otherPerson.jobTitle);
+                && jobApplications.equals(otherPerson.jobApplications);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, jobTitle, schedule, label, remark, tags);
+        return Objects.hash(name, phone, email, address, tags, jobApplications);
     }
 
     @Override
@@ -137,10 +162,6 @@ public class Person {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
-                .add("applied job title", jobTitle)
-                .add("interview date", schedule)
-                .add("label", label)
-                .add("remark", remark)
                 .add("tags", tags)
                 .toString();
     }

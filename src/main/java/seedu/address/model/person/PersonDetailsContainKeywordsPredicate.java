@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.jobapplication.JobApplicationDetailsContainKeywordCheck;
 
 /**
  * Tests that a {@code Person}'s details (i.e., any of its attributes) matches any of the keywords given.
@@ -22,15 +23,16 @@ public class PersonDetailsContainKeywordsPredicate implements Predicate<Person> 
                 .anyMatch(keyword -> personDetailsContainKeyword(person, keyword));
     }
 
+    // Note: currently I implement it to check if the any of the job application attach to this person has a match
     private boolean personDetailsContainKeyword(Person person, String keyword) {
+
         return StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)
                 || StringUtil.containsWordIgnoreCase(person.getPhone().value, keyword)
                 || StringUtil.containsWordIgnoreCase(person.getAddress().value, keyword)
                 || StringUtil.containsWordIgnoreCase(person.getEmail().value, keyword)
-                || StringUtil.containsWordIgnoreCase(person.getJobTitle().value, keyword)
-                || StringUtil.containsWordIgnoreCase(person.getSchedule().value, keyword)
-                || StringUtil.containsWordIgnoreCase(person.getLabel().value, keyword)
-                || StringUtil.containsWordIgnoreCase(person.getRemark().value, keyword)
+                || person.getJobApplcations().stream()
+                    .anyMatch(ja -> JobApplicationDetailsContainKeywordCheck
+                                        .jobApplicationDetailsContainKeyword(ja, keyword))
                 || person.getTags().stream()
                     .anyMatch(tag -> StringUtil.containsWordIgnoreCase(tag.tagName, keyword));
     }
