@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ public class ParserUtilTest {
     private static final String INVALID_JOBTITLE = "S**tware Eng!n33r";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_LABEL = "Acceptnot";
+
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
@@ -38,6 +40,8 @@ public class ParserUtilTest {
     private static final String VALID_JOBTITLE_2 = "(Level 7)";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_FILE_PATH_RELATIVE = "test.json";
+    private static final String VALID_FILE_PATH_ABSOLUTE = "/" + VALID_FILE_PATH_RELATIVE;
 
     private static final String VALID_LABEL = "Accepted";
     private static final String WHITESPACE = " \t\r\n";
@@ -244,5 +248,21 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parsePath_validRelativePathGiven_returnsPath() throws Exception {
+        Path actualPath = ParserUtil.parsePath(VALID_FILE_PATH_RELATIVE);
+        Path expectedPath = Path.of(VALID_FILE_PATH_RELATIVE);
+
+        assertEquals(expectedPath, actualPath);
+    }
+
+    @Test
+    public void parsePath_validAbsolutePathGiven_returnsPath() throws Exception {
+        Path actualPath = ParserUtil.parsePath(VALID_FILE_PATH_ABSOLUTE);
+        Path expectedPath = Path.of(VALID_FILE_PATH_ABSOLUTE);
+
+        assertEquals(expectedPath, actualPath);
     }
 }

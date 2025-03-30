@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
@@ -31,6 +34,7 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_FILE_PATH = "File path provided is invalid.";
     public static final String MESSAGE_INVALID_DATE =
             "Format of date is not supported. Format of date supported is yyyy-MM-dd (e.g. 2025-02-03)";
     public static final String MESSAGE_INVALID_TIME = "Format of time should be HH:MM";
@@ -209,6 +213,22 @@ public class ParserUtil {
         }
 
         return new Label(trimmedLabel);
+    }
+
+    /**
+     * Parses a {@code String path} into a {@link Path}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException
+     */
+    public static Path parsePath(String path) throws ParseException {
+        requireNonNull(path);
+        String trimmedPath = path.trim();
+        if (!FileUtil.isValidPath(trimmedPath)) {
+            throw new ParseException(MESSAGE_INVALID_FILE_PATH);
+        }
+
+        return Paths.get(trimmedPath);
     }
 
     /**

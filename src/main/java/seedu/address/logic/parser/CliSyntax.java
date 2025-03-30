@@ -18,4 +18,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_CANDIDATE = new Prefix("candidate/", "Candidate");
     public static final Prefix PREFIX_MODE = new Prefix("mode/", "Mode");
 
+    /* Prefix and suffix definitions - specific to save command */
+    public static final Prefix PREFIX_FILE = new Prefix("p/", "FilePath");
+    public static final Prefix SUFFIX_SAVE_ALL = new Prefix("/a", "");
+    public static final Prefix SUFFIX_OVERRIDE_FILE = new Prefix("/f", "");
+
 }

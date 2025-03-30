@@ -18,6 +18,7 @@ public class Messages {
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_FILE_EXISTS = "File at '%1$s' already exists!";
     public static final String MESSAGE_SCHEDULE_START_TIME_BEFORE_END_TIME =
             "The Start Time of the interview schedule is "
                     + "after the End Time of the interview schedule.";

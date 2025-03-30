@@ -55,6 +55,8 @@ QuickHire is a desktop address book application designed for recruiters to manag
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
+* Items **starting with** `/` (e.g., `/a`, `/f`, etc.) are to specified as they are without any parameters.
+
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
@@ -189,6 +191,25 @@ Examples:
 *  `remark 1 r/Likes to code` Adds a remark (`Likes to code`) to the 1st person
 *  `remark 1 r/` Clears all remarks for the 1st person
 
+### Saving the data : `save`
+
+QuickHire data is saved in the hard disk automatically after any command that changes the data.
+
+However, users can choose to save this data to a file of their choice with this command.
+
+Format: `save p/PATH_TO_FILE [/a] [/f]`
+
+* Saves the filtered QuickHire data (filtered using the `find` command) into the file at the specified location `PATH_TO_FILE`.
+* By default, if the file at `PATH_TO_FILE` already exists, then no data will be overwritten to that file.
+* (Optional) Specify `/f` to overwrite the contents of the file specified
+* (Optional) Specify `/a` to save all QuickHire data (instead of just the filtered ones).
+* The applicaton needs to have sufficient permissions to write to the file in order for the `save` feature to work.
+
+Examples:
+* `save p/past_candidates.json` Saves the current list of (filtered) candidates in to `[JAR file location]/past_candidates.json`
+* `save /a p//all_candidates.json` Save all candidates in the application to `/all_candidates.json`
+* `save p/existing_file.json /a /f` Save all candidates in the applicatoin to `[JAR file location]/exiting_file.json` and overwrites any existing data in the file
+
 ### Viewing job application statistics: 'viewstats'
 
 Displays the number of applications for each role.
@@ -200,10 +221,6 @@ Format: `viewstats`
 Exits the program.
 
 Format: `exit`
-
-### Saving the data
-
-QuickHire data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
@@ -224,49 +241,59 @@ _Details coming soon ..._
 
 **Q**: What if the same person applies to the same company a few months later?<br>
 **A**: There are 2 options:
-1. Delete the person's old entry input the person's details again.
-1. Edit the person's existing entry with a the updated details.
+1. Edit the person's existing entry with the updated details; or
+1. Delete the old entry, and re-add the complete and updated details of the person (should there be any clashes in data)
 
 **Q**: What if the person wants to apply for multiple roles within the same company? <br>
 **A**: Multiple job titles can be added using the edit command.
 
 **Q**: What if there are multiple stages of interview, how should I save it? <br>
-**A**: Once one stage of the interview is completed, use the edit command to add the next interview date to override the
-current interview date
+**A**: Once one stage of the interview is completed, use the edit command to add the next interview date to override the current interview date.
+
+**Q**: I have details of 37 candidates saved in the app. But when I run `save`, the file only has details of 2 candidates. Why is this so? <br>
+**A**: Probably the `save` command was executed without any optional flags. To be able to save all data, you have 2 options:
+1. (Easiest) Use the optional `/a` flag of `save` command to save all candidates' information.
+   E.g., `save p/file_to_save.json /a`
+1. Run `list` in the app to ensure the app is not displaying any _filtered_ data. Then run the `save` command as usual.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+1. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Flags summary
 
-Action | Format               | Examples                            | Optional?
---------|----------------------|-------------------------------------|--
-**n/** | `NAME`               | `n/John`                            | Mandatory
-**p/** | `PHONE NUMBER`       | `p/91234567`                        | Mandatory
-**e/** | `EMAIL`              | `e/john@example.com`                | Mandatory
-**a/** | `ADDRESS`            | `a/21, Kent Street, 123123`         | Mandatory
-**j/** | `JOB SCOPE`          | `j/Software Engineering Intern`     | Mandatory
-**l/** | `LABEL`              | `l/Unreviewed`                      | Mandatory
-**s/** | `INTERVIEW SCHEDULE` | `s/12-04-2025 13:00`                | Optional
-**r/** | `REMARK`             | `r/Amazing fit for company culture` | Optional
-**t/** | `TAGS`               | `t/Java`                            | Optional
+| Action | Description             | Used in (command)       | Example(s)                          | Mandatory? |
+|--------|-------------------------|-------------------------|-------------------------------------|------------|
+| **n/** | `NAME`                  | `add`, `edit`           | `n/John`                            | Yes        |
+| **p/** | `PHONE NUMBER`          | `add`, `edit`           | `p/91234567`                        | Yes        |
+| **e/** | `EMAIL`                 | `add`, `edit`           | `e/john@example.com`                | Yes        |
+| **a/** | `ADDRESS`               | `add`, `edit`           | `a/21, Kent Street, 123123`         | Yes        |
+| **j/** | `JOB SCOPE`             | `add`, `edit`           | `j/Software Engineering Intern`     | Yes        |
+| **l/** | `LABEL`                 | `add`, `edit`           | `l/Unreviewed`                      | Yes        |
+| **p/** | `PATH TO FILE`          | `save`                  | `p/candidates.json`                 | Yes        |
+| **s/** | `INTERVIEW SCHEDULE`    | `add`, `edit`           | `s/12-04-2025 13:00`                | No         |
+| **r/** | `REMARK`                | `add`, `edit`, `remark` | `r/Amazing fit for company culture` | No         |
+| **t/** | `TAGS`                  | `add`, `edit`           | `t/Java`                            | No         |
+| **/a** | Save all data           | `save`                  | `/a`                                | No         |
+| **/f** | Overwrite existing file | `save`                  | `/f`                                | No         |
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS j/JOB TITLE l/LABEL [s/INTERVIEW_SCHEDULE] [r/REMARK] [t/TAG]…​` <br> e.g., `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 j/Software Engineer l/Unreviewed s/10-02-2025 10:00 r/Likes to code`
-**Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOB TITLE] [l/LABEL] [s/INTERVIEW_SCHEDULE] [r/REMARK] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**Remark** | `remark INDEX r/REMARK`
-**ViewStats** | `viewstats`
-**List** | `list`
-**Help** | `help`
+| Action        | Format                                                                                                                    | Example(s)                                                                                                                                           |
+|---------------|---------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**       | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS j/JOB TITLE l/LABEL [s/INTERVIEW_SCHEDULE] [r/REMARK] [t/TAG]…​`             | `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 j/Software Engineer l/Unreviewed s/10-02-2025 10:00 r/Likes to code` |
+| **Clear**     | `clear`                                                                                                                   |                                                                                                                                                      |
+| **Delete**    | `delete INDEX`                                                                                                            | `delete 3`                                                                                                                                           |
+| **Edit**      | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOB TITLE] [l/LABEL] [s/INTERVIEW_SCHEDULE] [r/REMARK] [t/TAG]…​` | `edit 2 n/James Lee e/jameslee@example.com`                                                                                                          |
+| **Find**      | `find KEYWORD [MORE_KEYWORDS]`                                                                                            | `find James Jake`                                                                                                                                    |
+| **Remark**    | `remark INDEX r/REMARK`                                                                                                   | `remark 1 r/Has experience using JEE`, `remark 7 r/`                                                                                                 |
+| **Save**      | `save p/PATH_TO_FILE [/a] [/f]`                                                                                           | `save p/past_candidates.json`, `save p/exiting_file.json /f`, `save /a p/all_candidates.json`                                                        |
+| **ViewStats** | `viewstats`                                                                                                               |                                                                                                                                                      |
+| **View**      | `view INDEX`                                                                                                              | `view 5`                                                                                                                                             |
+| **List**      | `list`                                                                                                                    |                                                                                                                                                      |
+| **Help**      | `help`                                                                                                                    |                                                                                                                                                      |
