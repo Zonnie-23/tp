@@ -1,6 +1,8 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,14 +14,14 @@ import seedu.address.model.person.Person;
 /**
  * An UI component that displays information of a {@code Person}.
  */
-public class JobApplicationCard extends UiPart<Region> {
+public class FullDetailsCard extends UiPart<Region> {
 
     private static final String MESSAGE_SCHEDULE = "Interview Date and Time: %s";
     private static final String MESSAGE_REMARK = "Remark: %s";
 
     private static final String STYLE_LABEL = "cell_small_label";
 
-    private static final String FXML = "JobApplicationCard.fxml";
+    private static final String FXML = "fullDetailsCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -29,7 +31,7 @@ public class JobApplicationCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final Person person;
+    private Person person;
 
     @FXML
     private HBox fullCardPane;
@@ -46,8 +48,6 @@ public class JobApplicationCard extends UiPart<Region> {
     @FXML
     private Label jobTitle;
     @FXML
-    private FlowPane schedule;
-    @FXML
     private FlowPane remark;
     @FXML
     private FlowPane tags;
@@ -57,8 +57,31 @@ public class JobApplicationCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public JobApplicationCard(Person person) {
+    public FullDetailsCard(Person person) {
         super(FXML);
+        this.person = person;
+        savePersonDetails(person);
+    }
+
+    /**
+     * Handles the update of a person.
+     * @param oldPerson the person who has been updated
+     * @param newPerson the updated person
+     */
+    public void updatePerson(Person oldPerson, Person newPerson) {
+        if (this.person.isSamePerson(oldPerson)) {
+            clear();
+            Logger.getGlobal().log(Level.INFO, "Person updated");
+            savePersonDetails(newPerson);
+        }
+    }
+
+    /**
+     * Handles the new person to view, or clear the current entry when the person is deleted
+     * @param person The
+     */
+    public void changePerson(Person person) {
+        clear();
         this.person = person;
         savePersonDetails(person);
     }
@@ -68,6 +91,8 @@ public class JobApplicationCard extends UiPart<Region> {
             clear();
             return;
         }
+        this.person = person;
+
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
@@ -99,7 +124,7 @@ public class JobApplicationCard extends UiPart<Region> {
 
     private Label createLabel(String text) {
         Label uiLabel = new Label(text);
-        uiLabel.getStyleClass().addAll(JobApplicationCard.STYLE_LABEL);
+        uiLabel.getStyleClass().addAll(FullDetailsCard.STYLE_LABEL);
         return uiLabel;
     }
 
@@ -121,7 +146,6 @@ public class JobApplicationCard extends UiPart<Region> {
         email.setText("");
         label.setText("");
         jobTitle.setText("");
-        schedule.getChildren().clear();
         remark.getChildren().clear();
         tags.getChildren().clear();
     }

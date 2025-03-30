@@ -26,7 +26,6 @@
       <Label fx:id="phone" alignment="CENTER" styleClass="cell_small_label" text="\$phone" />
       <Label fx:id="address" alignment="CENTER" styleClass="cell_small_label" text="\$address" />
       <Label fx:id="email" alignment="CENTER" styleClass="cell_small_label" text="\$email" />
-      <FlowPane fx:id="schedule" alignment="CENTER" />
       <FlowPane fx:id="remark" alignment="CENTER" />
     </VBox>
     <rowConstraints>

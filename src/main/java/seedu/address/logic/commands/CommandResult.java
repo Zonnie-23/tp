@@ -20,19 +20,51 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
-    private final boolean showNewPerson;
+    private final boolean isPersonNew;
 
-    private Person person;
+    private final boolean isPersonUpdated;
+
+    private final Person oldPerson;
+
+    private final Person newPerson;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showNewPerson) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
-        this.showNewPerson = showNewPerson;
+        this.isPersonNew = false;
+        this.isPersonUpdated = false;
         this.showHelp = showHelp;
         this.exit = exit;
-        this.person = null;
+        this.oldPerson = null;
+        this.newPerson = null;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields - for view command.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, Person newPerson) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.isPersonNew = true;
+        this.isPersonUpdated = false;
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.oldPerson = null;
+        this.newPerson = newPerson;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields - for commands which update person.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, Person oldPerson, Person newPerson) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.isPersonNew = false;
+        this.isPersonUpdated = true;
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.oldPerson = oldPerson;
+        this.newPerson = newPerson;
     }
 
     /**
@@ -40,19 +72,19 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false, false);
+        this(feedbackToUser, false, false);
     }
 
     public String getFeedbackToUser() {
         return feedbackToUser;
     }
 
-    public void setPersonToShow(Person person) {
-        this.person = person;
+    public Person getSelectedPerson() {
+        return this.oldPerson;
     }
 
-    public Person getPersonToShow() {
-        return this.person;
+    public Person getNewPerson() {
+        return this.newPerson;
     }
 
     public boolean isShowHelp() {
@@ -63,8 +95,12 @@ public class CommandResult {
         return exit;
     }
 
-    public boolean shouldShowNewPersonFullDetails() {
-        return showNewPerson;
+    public boolean isPersonNew() {
+        return isPersonNew;
+    }
+
+    public boolean isPersonUpdated() {
+        return isPersonUpdated;
     }
 
     @Override
@@ -82,12 +118,14 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
-                && showNewPerson == otherCommandResult.showNewPerson;
+                && isPersonNew == otherCommandResult.isPersonNew
+                && isPersonUpdated == otherCommandResult.isPersonUpdated
+                && Objects.equals(newPerson, otherCommandResult.newPerson);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, showNewPerson);
+        return Objects.hash(feedbackToUser, showHelp, exit, isPersonNew, isPersonUpdated, newPerson);
     }
 
     @Override
@@ -95,7 +133,9 @@ public class CommandResult {
         return new ToStringBuilder(this)
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
-                .add("showJobApplication", showNewPerson)
+                .add("isPersonNew", isPersonNew)
+                .add("isPersonUpdated", isPersonUpdated)
+                .add("newPerson", newPerson)
                 .add("exit", exit)
                 .toString();
     }

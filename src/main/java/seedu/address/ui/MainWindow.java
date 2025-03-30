@@ -33,7 +33,7 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
-    private JobApplicationCard jobApplicationCard;
+    private FullDetailsCard fullDetailsCard;
     private ScheduleListPanel scheduleListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
@@ -48,7 +48,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane personListPanelPlaceholder;
 
     @FXML
-    private StackPane jobApplicationCardPlaceholder;
+    private StackPane fullDetailsCardPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -126,8 +126,8 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
-        jobApplicationCard = new JobApplicationCard(logic.getFirstPerson());
-        jobApplicationCardPlaceholder.getChildren().add(jobApplicationCard.getRoot());
+        fullDetailsCard = new FullDetailsCard(logic.getFirstPerson());
+        fullDetailsCardPlaceholder.getChildren().add(fullDetailsCard.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -184,14 +184,19 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Closes the application.
+     * Changes the person to a new person.
      */
     @FXML
     private void handleNewPerson(Person person) {
-        jobApplicationCard.clear();
-        jobApplicationCard = new JobApplicationCard(person);
-        jobApplicationCardPlaceholder.getChildren().add(jobApplicationCard.getRoot());
-        jobApplicationCard.show();
+        fullDetailsCard.changePerson(person);
+    }
+
+    /**
+     * Update the person's details (if necessary).
+     */
+    @FXML
+    private void handleUpdatePerson(Person oldPerson, Person newPerson) {
+        fullDetailsCard.updatePerson(oldPerson, newPerson);
     }
 
     //Solution below inspired by https://stackoverflow.com/questions/53524131
@@ -236,8 +241,12 @@ public class MainWindow extends UiPart<Stage> {
                 handleHelp();
             }
 
-            if (commandResult.shouldShowNewPersonFullDetails()) {
-                handleNewPerson(commandResult.getPersonToShow());
+            if (commandResult.isPersonNew()) {
+                handleNewPerson(commandResult.getNewPerson());
+            }
+
+            if (commandResult.isPersonUpdated()) {
+                handleUpdatePerson(commandResult.getSelectedPerson(), commandResult.getNewPerson());
             }
 
             if (commandResult.isExit()) {
