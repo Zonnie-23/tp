@@ -1,0 +1,81 @@
+ @startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor UI_COLOR_T4
+skinparam classBackgroundColor UI_COLOR
+
+package UI <<Rectangle>>{
+Class "<<interface>>\nUi" as Ui
+Class "{abstract}\nUiPart" as UiPart
+Class UiManager
+Class MainWindow
+Class HelpWindow
+Class StatusBarFooter
+Class ResultDisplay
+Class CommandBox
+Class PersonListPanel
+Class PersonCard
+Class FullDetailsCard
+Class ScheduleCard
+Class ScheduleListPanel
+Class HiddenBox #FFFFFF
+Class HiddenBox2 #FFFFFF
+Class HiddenBox3 #FFFFFF
+}
+
+package Model <<Rectangle>> {
+Class HiddenModel #FFFFFF
+}
+
+package Logic <<Rectangle>> {
+Class HiddenLogic #FFFFFF
+}
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Ui
+
+Class HiddenOutside2 #FFFFFF
+Class HiddenOutside3 #FFFFFF
+
+UiManager .left.|> Ui
+UiManager -down-> "1" MainWindow
+MainWindow --> "0..1" HelpWindow
+MainWindow *-down-> "1" StatusBarFooter
+MainWindow *-down-> "1" ResultDisplay
+MainWindow *-down-> "1" CommandBox
+MainWindow *-down-> "1" ScheduleListPanel
+MainWindow *-down-> "1" PersonListPanel
+MainWindow *-down-> "1" FullDetailsCard
+
+PersonListPanel -down-> "*" PersonCard
+ScheduleListPanel -down-> "*" ScheduleCard
+
+MainWindow -left-|> UiPart
+
+FullDetailsCard --|> UiPart
+ResultDisplay --|> UiPart
+CommandBox --|> UiPart
+PersonListPanel --|> UiPart
+PersonCard --|> UiPart
+StatusBarFooter --|> UiPart
+HelpWindow --|> UiPart
+ScheduleCard --|> UiPart
+ScheduleListPanel --|> UiPart
+
+PersonCard ..> HiddenModel
+FullDetailsCard ..> Model
+ScheduleCard ..> Model
+MainWindow -right-> HiddenLogic
+UiManager -right-> Logic
+
+FullDetailsCard -[hidden]left- ScheduleListPanel
+ScheduleListPanel -[hidden]left- PersonListPanel
+PersonListPanel -[hidden]left- CommandBox
+CommandBox -[hidden]left- ResultDisplay
+ResultDisplay -[hidden]left- StatusBarFooter
+StatusBarFooter -[hidden]left- HelpWindow
+
+HiddenOutside3 -[hidden]down- HiddenBox3
+PersonCard -[hidden]down- HiddenOutside2
+
+@enduml
