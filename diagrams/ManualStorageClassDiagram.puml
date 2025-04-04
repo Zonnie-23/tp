@@ -4,15 +4,10 @@ skinparam arrowThickness 1.1
 skinparam arrowColor STORAGE_COLOR
 skinparam classBackgroundColor STORAGE_COLOR
 
-package Storage as StoragePackage {
+package ManualStorage as ManualStoragePackage {
 
-package "UserPrefs Storage" #F4F6F6{
-Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
-Class JsonUserPrefsStorage
-}
-
-Class "<<interface>>\nStorage" as Storage
-Class StorageManager
+Class "<<interface>>\nManualStorage" as ManualStorage
+Class ManualStorageManager
 
 package "AddressBook Storage" #F4F6F6{
 Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
@@ -32,18 +27,15 @@ Class JsonAdaptedSchedule
 }
 
 Class HiddenOutside #FFFFFF
-HiddenOutside ..> Storage
+HiddenOutside ..> ManualStorage
 
-StorageManager .up.|> Storage
-StorageManager -down-> "1" UserPrefsStorage
-StorageManager -down-> "1" AddressBookStorage
-StorageManager -down-> "1" ScheduleBoardStorage
+ManualStorageManager .up.|> ManualStorage
+ManualStorageManager -up-> "1" AddressBookStorage
+ManualStorageManager -up-> "1" ScheduleBoardStorage
 
-Storage --|> UserPrefsStorage
-Storage --|> AddressBookStorage
-Storage --|> ScheduleBoardStorage
+ManualStorage -right-|> AddressBookStorage
+ManualStorage -right-|> ScheduleBoardStorage
 
-JsonUserPrefsStorage .up.|> UserPrefsStorage
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
 JsonSerializableAddressBook --> "*" JsonAdaptedPerson
@@ -52,6 +44,5 @@ JsonAdaptedPerson --> "*" JsonAdaptedTag
 JsonScheduleBoardStorage .up.|> ScheduleBoardStorage
 JsonScheduleBoardStorage ..> JsonSerializableScheduleBoard
 JsonSerializableScheduleBoard --> "*" JsonAdaptedSchedule
-
 
 @enduml

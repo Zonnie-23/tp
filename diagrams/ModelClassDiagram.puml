@@ -7,8 +7,10 @@ skinparam classBackgroundColor MODEL_COLOR
 Package Model as ModelPackage <<Rectangle>>{
 Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
 Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+Class "<<interface>>\nReadOnlyScheduleBoard" as ReadOnlyScheduleBoard
 Class "<<interface>>\nModel" as Model
 Class AddressBook
+Class ScheduleBoard
 Class ModelManager
 Class UserPrefs
 
@@ -20,6 +22,11 @@ Class Name
 Class Phone
 Class Tag
 
+Class UniqueScheduleList
+Class Schedule
+Class LocalDate
+Class LocalTime
+
 Class I #FFFFFF
 }
 
@@ -27,12 +34,15 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
 AddressBook .up.|> ReadOnlyAddressBook
+ScheduleBoard .up.|> ReadOnlyScheduleBoard
 
-ModelManager .up.|> Model
-Model .right.> ReadOnlyUserPrefs
-Model .left.> ReadOnlyAddressBook
-ModelManager -left-> "1" AddressBook
-ModelManager -right-> "1" UserPrefs
+ModelManager .up...|> Model
+Model ..> ReadOnlyUserPrefs
+Model ..> ReadOnlyAddressBook
+Model ...> ReadOnlyScheduleBoard
+ModelManager ---> "1" AddressBook
+ModelManager ---> "1" UserPrefs
+ModelManager ---> "1" ScheduleBoard
 UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
@@ -42,6 +52,13 @@ Person *--> Phone
 Person *--> Email
 Person *--> Address
 Person *--> "*" Tag
+
+ScheduleBoard *--> "1" UniqueScheduleList
+UniqueScheduleList --> "~* all" Schedule
+Schedule *--> LocalDate
+Schedule *--> Name
+Schedule *--> Email
+Schedule *--> LocalTime
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I

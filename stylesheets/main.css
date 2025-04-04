@@ -143,9 +143,10 @@ mark {
     font-size: 1.2rem !important;
   }
 
+  /* Display link to go to the top of the page when printing */
   .ug-nav-top {
     display: block;
-    /* text-align: right; */
+    text-align: right;
   }
 }
 
