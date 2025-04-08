@@ -731,6 +731,41 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding a candidate
+1. Adding a person while all candidates are being shown (valid and invalid)
+
+    1. Prerequisites: No entry below is already in the candidate list.
+
+    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/Unreviewed r/Likes to code t/friends t/owesMoney`<br>
+       Expected: Candidate is added to list. Details of the added contact shown in the result box.
+
+    1. Test case: `add`<br>
+       Expected: No candidate is added. General error details shown in the result box.
+
+    1. Test case: `add n/Vish p/1293123 e/sample@domain.com a/213123 street l/Rejected`
+       Expected: No candidate is added. Specific error message detailing missing fields shown. (Job Role missing)
+
+1. Adding a person : Testing duplicate entries
+
+    1. Prerequisites: The same person is already in the candidate list.
+
+    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/Unreviewed r/Likes to code t/friends t/owesMoney`<br>
+       Expected: Candidate is already in list. Duplicate error message shown.
+
+1. Adding a person : Testing individual parameters
+
+    1. Prerequisites: The same person is already in the candidate list.
+    
+    1. Test case: `add n/John Who p/98765431 e/johnw@example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/funny r/Likes to code t/friends t/owesMoney`<br>
+       Expected: No candidate is added. Label is not in valid format error message shown.
+   
+    1. Test case: `add n/John Who p/98765431 e/yeetus.example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/funny r/Likes to code t/friends t/owesMoney`<br>
+       Expected: No candidate is added. Email is not in valid format error message shown.
+   
+    1. The test cases may be repeated for all parameters in a similar fashion.
+
+1. _{ more test cases …​ }_
+
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
@@ -867,6 +902,8 @@ QuickHire is considerably challenging because of the integration of additional e
   To ensure robustness and maintainability, we prioritized comprehensive testing and strict adherence to coding standards. Driven by passion and a commitment to learning, we consistently went the extra mile throughout development.
 * **Achievements:** 
   - Introduce new schedule features that allow user to create and maintain interview schedules for candidates.
+  - Introduce the ability to change between 2 themes, light and dark.
+  - Introduce Job Role related features to allow users to add, edit and delete Job Roles.
 
 ## **Appendix: Planned Enhancements**
 Team size: 5
@@ -875,3 +912,4 @@ Team size: 5
 1. The current implementation cannot verify whether an interview that spans midnight (i.e., crosses two consecutive days) has a duration between 15 minutes and 4 hours. We plan to add a check to ensure that any interview for the same candidate crossing into the next day also falls within that 15‑minute to 4‑hour window.
 1. The current deleteJ command does modify users who has the corresponding job role, which would be updated as `UNRECOGNISED` the next time the application is loaded. We plan to notify users which candidates have such job role and provide users with an easier way of updating them.
 1. The viewing box of the view command will require scrolling if any parameters become too long. We plan enforce wrapping of all items in the window, to avoid unnecessarily long inner box size.
+1. The current implementation also has an issue with proper verification of duplicate candidate. We plan to add an NRIC/Unique ID field to each candidate to ensure better duplicate handling.
