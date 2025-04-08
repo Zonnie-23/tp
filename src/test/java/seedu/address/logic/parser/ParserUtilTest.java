@@ -42,6 +42,7 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_JOB_ROLE = "Software Engineer";
     private static final String VALID_JOB_ROLE_2 = "(Level 7)";
+    private static final String VALID_JOB_ROLE_3 = "(Level 7 or Level 8)";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
     private static final String VALID_REMARK = "Proficient in Java EE";
@@ -200,7 +201,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseJobRole_overflowValue_throwsParseException() {
-        String jobRoleWithWhitespace = WHITESPACE + VALID_JOB_ROLE + VALID_JOB_ROLE_2 + WHITESPACE;
+        String jobRoleWithWhitespace = WHITESPACE + VALID_JOB_ROLE + VALID_JOB_ROLE_3 + WHITESPACE;
         assertThrows(ParseException.class, () -> ParserUtil.parseJobRole(jobRoleWithWhitespace));
     }
 
@@ -212,7 +213,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseJobRole_validValueWithWhitespaceSpecialCharacters_returnsJobRole() throws Exception {
-        String jobRoleWithWhitespace = WHITESPACE + VALID_JOB_ROLE + VALID_JOB_ROLE_2;
+        String jobRoleWithWhitespace = WHITESPACE + VALID_JOB_ROLE + VALID_JOB_ROLE_2 + WHITESPACE;
         JobRole expectedJobRole = new JobRole(VALID_JOB_ROLE + VALID_JOB_ROLE_2);
         assertEquals(expectedJobRole, ParserUtil.parseJobRole(jobRoleWithWhitespace));
     }

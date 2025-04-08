@@ -13,6 +13,7 @@ package "AddressBook Storage" #F4F6F6{
 Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
 Class JsonAddressBookStorage
 Class JsonSerializableAddressBook
+Class JsonAdaptedJobRole
 Class JsonAdaptedPerson
 Class JsonAdaptedTag
 }
@@ -38,6 +39,7 @@ ManualStorage -right-|> ScheduleBoardStorage
 
 JsonAddressBookStorage .up.|> AddressBookStorage
 JsonAddressBookStorage ..> JsonSerializableAddressBook
+JsonSerializableAddressBook --> "*" JsonAdaptedJobRole
 JsonSerializableAddressBook --> "*" JsonAdaptedPerson
 JsonAdaptedPerson --> "*" JsonAdaptedTag
 

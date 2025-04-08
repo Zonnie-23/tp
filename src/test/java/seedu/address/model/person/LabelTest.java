@@ -61,4 +61,25 @@ public class LabelTest {
         assertFalse(label.equals(new Label("Shortlisted")));
     }
 
+    @Test
+    public void testToString() {
+        Label label = new Label("UnReVieWed");
+
+        assertTrue(label.toString().equals("Unreviewed"));
+
+        label = new Label("accEpTeD");
+
+        assertTrue(label.toString().equals("Accepted"));
+
+        label = new Label("RejECted");
+
+        assertTrue(label.toString().equals("Rejected"));
+
+        label = new Label("ShoRTLIsted");
+
+        assertTrue(label.toString().equals("Shortlisted"));
+
+
+    }
+
 }

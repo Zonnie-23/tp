@@ -11,7 +11,7 @@ public class Label {
     public static final String MESSAGE_CONSTRAINTS =
             "Labels can only be Unreviewed, Accepted, Rejected or Shortlisted";
 
-    public static final String VALIDATION_REGEX = "^(Unreviewed|Accepted|Rejected|Shortlisted)$";
+    public static final String VALIDATION_REGEX = "^(?i)(Unreviewed|Accepted|Rejected|Shortlisted)$";
 
     public final String value;
 
@@ -36,7 +36,8 @@ public class Label {
 
     @Override
     public String toString() {
-        return this.value;
+        String output = this.value.toLowerCase();
+        return output.substring(0, 1).toUpperCase() + output.substring(1);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class Label {
         }
 
         Label otherName = (Label) other;
-        return value.equals(otherName.value);
+        return value.equalsIgnoreCase(otherName.value);
     }
 
 }

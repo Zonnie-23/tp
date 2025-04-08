@@ -17,7 +17,7 @@ public class PersonCard extends UiPart<Region> {
 
     private static final String MESSAGE_JOBROLE = "Job Role: ";
 
-    private static final String MESSAGE_STATUS = "Status: %s";
+    private static final String MESSAGE_LABEL = "Label: %s";
 
     private static final String MESSAGE_REMARK = "Remark: %s";
 
@@ -67,7 +67,7 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         email.setText(person.getEmail().value);
-        label.setText(String.format(MESSAGE_STATUS, person.getLabel().value));
+        label.setText(String.format(MESSAGE_LABEL, person.getLabel()));
 
         String jobRolesMerged = person.getJobRoles().stream()
                 .sorted(Comparator.comparing(jobRole -> jobRole.value))

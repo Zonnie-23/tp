@@ -95,6 +95,9 @@ public class ParserUtil {
         if (!Phone.isValidPhone(trimmedPhone)) {
             throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
         }
+        if (trimmedPhone.length() > Phone.MAX_LENGTH) {
+            throw new ParseException(String.format(MESSAGE_INPUT_TOO_LONG, "Phone", Phone.MAX_LENGTH));
+        }
         return new Phone(trimmedPhone);
     }
 
@@ -140,7 +143,7 @@ public class ParserUtil {
         if (!JobRole.isValidJobRole(trimmedJobRole)) {
             throw new ParseException(JobRole.MESSAGE_NEW_CONSTRAINTS);
         }
-        if (jobRole.length() > JobRole.MAX_LENGTH) {
+        if (trimmedJobRole.length() > JobRole.MAX_LENGTH) {
             throw new ParseException(String.format(MESSAGE_INPUT_TOO_LONG, "Job role", JobRole.MAX_LENGTH));
         }
         return new JobRole(trimmedJobRole);
