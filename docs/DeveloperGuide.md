@@ -919,6 +919,8 @@ QuickHire is considerably challenging because of the integration of additional e
   To ensure robustness and maintainability, we prioritized comprehensive testing and strict adherence to coding standards. Driven by passion and a commitment to learning, we consistently went the extra mile throughout development.
 * **Achievements:** 
   - Introduce new schedule features that allow user to create and maintain interview schedules for candidates.
+  - Introduce the ability to change between 2 themes, light and dark.
+  - Introduce Job Role related features to allow users to add, edit and delete Job Roles.
 
 ## **Appendix: Planned Enhancements**
 Team size: 5
