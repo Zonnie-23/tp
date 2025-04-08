@@ -20,6 +20,8 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
                 args, PREFIX_REMARK);
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_REMARK);
+
         Index index;
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
@@ -28,8 +30,8 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
                     RemarkCommand.MESSAGE_USAGE), ive);
         }
 
-        String remark = argMultimap.getValue(PREFIX_REMARK).orElse("");
+        Remark remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK).orElse(""));
 
-        return new RemarkCommand(index, new Remark(remark));
+        return new RemarkCommand(index, remark);
     }
 }

@@ -37,7 +37,7 @@ public class AddJCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_JOB_ROLE);
         }
         model.addJobRole(title);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, title));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, title.value));
     }
 
     @Override

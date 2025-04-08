@@ -45,6 +45,9 @@ public class JobRoleTest {
         // same values -> returns true
         assertTrue(jobRole.equals(new JobRole("Valid Job Role")));
 
+        // same case-insensitve values -> returns true
+        assertTrue(jobRole.equals(new JobRole("ValiD JoB RolE")));
+
         // same object -> returns true
         assertTrue(jobRole.equals(jobRole));
 

@@ -13,6 +13,7 @@ import seedu.address.model.person.JobRole;
 public class StatisticsWindow {
 
     private static final String TITLE = "Job Statistics";
+    private static StatisticsWindow instance = null;
     private Stage stage;
 
     /**
@@ -22,6 +23,15 @@ public class StatisticsWindow {
     public StatisticsWindow() {
         stage = new Stage();
         stage.setTitle(TITLE);
+        stage.setResizable(false);
+        stage.setOnHidden(e -> instance = null);
+    }
+
+    public static StatisticsWindow getInstance() {
+        if (instance == null) {
+            instance = new StatisticsWindow();
+        }
+        return instance;
     }
 
     /**
@@ -31,8 +41,7 @@ public class StatisticsWindow {
     public void setStatistics(Map<JobRole, Long> stats, List<JobRole> dynamicJobRoles) {
         StatisticsPanel statsPanel = new StatisticsPanel();
         statsPanel.setStatistics(stats, dynamicJobRoles);
-        Scene scene = new Scene(statsPanel.getRoot());
-        stage.setScene(scene);
+        stage.setScene(new Scene(statsPanel.getRoot()));
     }
 
     /**
@@ -40,5 +49,19 @@ public class StatisticsWindow {
      */
     public void show() {
         stage.show();
+    }
+
+    /**
+     * Hides the statistics window.
+     */
+    public void hide() {
+        stage.hide();
+    }
+
+    /**
+     * Returns true if the statistics window is currently showing.
+     */
+    public boolean isShowing() {
+        return stage.isShowing();
     }
 }

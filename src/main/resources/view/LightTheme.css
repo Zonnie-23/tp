@@ -349,6 +349,8 @@
 }
 
 #fullCardPane .label{
+    -fx-hgap: 7;
+    -fx-vgap: 3;
     -fx-text-fill: black;
 }
 
@@ -359,8 +361,13 @@
     -fx-font-size: 10px;
 }
 
-#fullCardPane #jobRole .label {
-    -fx-background-color: #C4A484;
+#fullCardPane #jobRoles {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
+#fullCardPane #jobRoles .label {
+    -fx-background-color: #EFDECD;
     -fx-background-radius: 3px;
     -fx-padding: 1px 3px;
     -fx-font-size: 10px;
@@ -391,7 +398,6 @@
     -fx-background-radius: 0;
 }
 
-
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
@@ -406,16 +412,8 @@
     -fx-font-size: 11;
 }
 
-#jobRoles {
-    -fx-hgap: 7;
-    -fx-vgap: 3;
-}
 
 #jobRoles .label {
     -fx-text-fill: #000000;
-    -fx-background-color: #EFDECD;
-    -fx-padding: 1 3 1 3;
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-font-size: 11;
+    -fx-font-size: 13;
 }

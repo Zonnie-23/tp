@@ -27,6 +27,15 @@ public class PersonTest {
     }
 
     @Test
+    public void personWithInvalidJobRole_reset_returnsUnrecognisedJobRole() {
+        Person person = new PersonBuilder().withJobRole("Tester").build();
+        person.resetJobRoles();
+
+        Person expectedPerson = new PersonBuilder().withJobRole("UNRECOGNISED").build();
+        assertEquals(expectedPerson, person);
+    }
+
+    @Test
     public void isSamePerson() {
         // same object -> returns true
         assertTrue(ALICE.isSamePerson(ALICE));

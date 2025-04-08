@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,6 +44,14 @@ public class UniqueJobRoleList implements Iterable<JobRole> {
     public boolean contains(JobRole toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::equals);
+    }
+
+    /**
+     * Returns true if the list contains an equivalent job role for all JobRoles in given argument.
+     */
+    public boolean containsAll(Set<JobRole> toCheck) {
+        requireNonNull(toCheck);
+        return toCheck.stream().allMatch(this::contains);
     }
 
     /**

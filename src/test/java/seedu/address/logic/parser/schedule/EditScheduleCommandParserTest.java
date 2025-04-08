@@ -2,8 +2,11 @@ package seedu.address.logic.parser.schedule;
 
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_SCHEDULE_INVALID_DURATION;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_MODE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_DATE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_DURATION_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_DURATION_DESC_2;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_END_TIME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_START_TIME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.SCHEDULE_DESC_AMY;
@@ -71,9 +74,16 @@ public class EditScheduleCommandParserTest {
                 MESSAGE_INVALID_TIME); // invalid start time
         assertParseFailure(parser, "1" + INVALID_SCHEDULE_END_TIME_DESC,
                 MESSAGE_INVALID_TIME); // invalid end time
+
+        assertParseFailure(parser, "1" + INVALID_SCHEDULE_DURATION_DESC,
+                MESSAGE_SCHEDULE_INVALID_DURATION); // invalid duration
+
+        assertParseFailure(parser, "1" + INVALID_SCHEDULE_DURATION_DESC_2,
+                MESSAGE_SCHEDULE_INVALID_DURATION); // invalid duration
+
         assertParseFailure(parser, "1" + INVALID_MODE_DESC, Mode.MESSAGE_CONSTRAINTS); // invalid mode
 
-        // invalid phone followed by valid email
+        // invalid schedule followed by valid mode
         assertParseFailure(parser, "1" + INVALID_SCHEDULE_DATE_DESC + VALID_MODE_DESC,
                 MESSAGE_INVALID_DATE);
 

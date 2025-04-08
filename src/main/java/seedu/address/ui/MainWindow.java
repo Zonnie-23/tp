@@ -141,6 +141,7 @@ public class MainWindow extends UiPart<Stage> {
 
         candidateFullDetailsCard = new CandidateFullDetailsCard(logic.getFirstPerson());
         candidateFullDetailsContainer.getChildren().add(candidateFullDetailsCard.getRoot());
+        candidateFullDetailsContainer.maxWidthProperty().bind(allResultsContainer.widthProperty().multiply(0.5));
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath(),
                 logic.getScheduleBoardFilePath());
@@ -191,6 +192,10 @@ public class MainWindow extends UiPart<Stage> {
                 (int) primaryStage.getX(), (int) primaryStage.getY(), logic.getTheme());
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
+        StatisticsWindow statisticsWindow = StatisticsWindow.getInstance();
+        if (statisticsWindow.isShowing()) {
+            statisticsWindow.hide();
+        }
         primaryStage.hide();
     }
 
@@ -220,23 +225,23 @@ public class MainWindow extends UiPart<Stage> {
     //Solution below inspired by https://stackoverflow.com/questions/53524131
     @FXML
     private void handleDarkTheme() throws CommandException {
+        this.helpWindow.setDarkTheme();
         logic.setTheme(Theme.DARK);
         resultDisplay.setFeedbackToUser(String.format(ThemeCommand.MESSAGE_THEME_CHANGE_SUCCESS, Theme.DARK));
         primaryStage.getScene().getStylesheets().clear();
         primaryStage.getScene().getStylesheets().add("view/DarkTheme.css");
         primaryStage.getScene().getStylesheets().add("view/DarkExtensions.css");
-        this.helpWindow.setDarkTheme();
     }
 
     //Solution below inspired by https://stackoverflow.com/questions/53524131
     @FXML
     private void handleLightTheme() throws CommandException {
-        logic.setTheme(Theme.DARK);
+        this.helpWindow.setLightTheme();
+        logic.setTheme(Theme.LIGHT);
         resultDisplay.setFeedbackToUser(String.format(ThemeCommand.MESSAGE_THEME_CHANGE_SUCCESS, Theme.LIGHT));
         primaryStage.getScene().getStylesheets().clear();
         primaryStage.getScene().getStylesheets().add("view/LightTheme.css");
         primaryStage.getScene().getStylesheets().add("view/LightExtensions.css");
-        this.helpWindow.setLightTheme();
     }
 
     private void handleStartTheme(Theme theme) {
@@ -299,7 +304,7 @@ public class MainWindow extends UiPart<Stage> {
             }
 
             if (commandResult.getStatistics() != null) {
-                StatisticsWindow statisticsWindow = new StatisticsWindow();
+                StatisticsWindow statisticsWindow = StatisticsWindow.getInstance();
                 List<JobRole> dynamicJobRoles = logic.getFilteredJobRolesList()
                         .stream()
                         .collect(Collectors.toList());

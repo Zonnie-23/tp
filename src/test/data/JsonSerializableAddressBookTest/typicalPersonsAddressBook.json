@@ -8,7 +8,7 @@
     "jobRoles": [ "Front End Developer" ],
     "label": "Unreviewed",
     "remark": "Likes to solve leetcode problems.",
-    "tags": [ "friends" ]
+    "tags": [ "Java" ]
   }, {
     "name": "Benson Meier",
     "phone": "98765432",
@@ -17,7 +17,7 @@
     "jobRoles": [ "IT Administrator" ],
     "label": "Unreviewed",
     "remark": "He likes to research on randomised algorithms.",
-    "tags": [ "owesMoney", "friends" ]
+    "tags": [ "Javascript", "Bash" ]
   }, {
     "name": "Carl Kurz",
     "phone": "95352563",
@@ -35,7 +35,7 @@
     "jobRoles": [ "UI Designer" ],
     "label": "Rejected",
     "remark": "Likes to solve leetcode problems.",
-    "tags": [ "friends" ]
+    "tags": [ "Svelte" ]
   }, {
     "name": "Elle Meyer",
     "phone": "9482224",

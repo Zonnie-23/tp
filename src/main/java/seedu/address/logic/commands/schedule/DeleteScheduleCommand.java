@@ -22,7 +22,7 @@ public class DeleteScheduleCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the interview schedule identified by the index number used in the displayed schedule board.\n"
-            + "Parameters: " + "INDEX (must be a positive integer)\n"
+            + "Parameters: " + "SCHEDULE_INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 2";
 
     public static final String MESSAGE_DELETE_SCHEDULE_SUCCESS = "Deleted schedule: %1$s";

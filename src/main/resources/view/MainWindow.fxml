@@ -44,14 +44,16 @@
           </padding>
         </StackPane>
 
-        <VBox fx:id="resultsContainer" styleClass="pane-with-border" minHeight="150" prefHeight="150" maxHeight="150" VBox.vgrow="NEVER">
+        <VBox fx:id="resultsContainer" styleClass="pane-with-border" minHeight="175" prefHeight="200" maxHeight="200"
+              VBox.vgrow="NEVER">
           <HBox fx:id="allResultsContainer">
             <StackPane fx:id="resultDisplayPlaceholder" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
               <padding>
                 <Insets top="5" right="10" bottom="5" left="10" />
               </padding>
             </StackPane>
-            <StackPane fx:id="candidateFullDetailsContainer" styleClass="pane-with-border" minWidth="300" HBox.hgrow="ALWAYS">
+            <StackPane fx:id="candidateFullDetailsContainer" styleClass="pane-with-border" minWidth="300"
+                       HBox.hgrow="ALWAYS">
                 <padding>
                   <Insets top="5" right="10" bottom="5" left="10" />
                 </padding>

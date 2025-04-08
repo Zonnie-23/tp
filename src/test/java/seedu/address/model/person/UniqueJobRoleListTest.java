@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalJobRoles.JOB_ROLES_NOT_IN_DEFAULT_LIST;
+import static seedu.address.testutil.TypicalJobRoles.JOB_ROLES_NOT_IN_DEFAULT_LIST_2;
 import static seedu.address.testutil.TypicalJobRoles.JOB_ROLE_IN_DEFAULT_LIST;
+import static seedu.address.testutil.TypicalJobRoles.JOB_ROLE_IN_DEFAULT_LIST_2;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -34,11 +37,30 @@ public class UniqueJobRoleListTest {
     public void contains_jobRoleInList_returnsTrue() {
         uniqueJobRoleList.add(JOB_ROLES_NOT_IN_DEFAULT_LIST);
         assertTrue(uniqueJobRoleList.contains(JOB_ROLES_NOT_IN_DEFAULT_LIST));
+        uniqueJobRoleList.remove(JOB_ROLES_NOT_IN_DEFAULT_LIST);
     }
 
     @Test
     public void contains_defaultJobRoleInList_returnsTrue() {
         assertTrue(uniqueJobRoleList.contains(JOB_ROLE_IN_DEFAULT_LIST));
+    }
+
+    @Test
+    public void contains_jobRoleSetInList_returnsTrue() {
+        assertTrue(uniqueJobRoleList.containsAll(new HashSet<>(Arrays.asList(JOB_ROLE_IN_DEFAULT_LIST,
+                JOB_ROLE_IN_DEFAULT_LIST_2))));
+    }
+
+    @Test
+    public void contains_jobRoleSetOneNotInList_returnsFalse() {
+        assertFalse(uniqueJobRoleList.containsAll(new HashSet<>(Arrays.asList(JOB_ROLE_IN_DEFAULT_LIST,
+                JOB_ROLES_NOT_IN_DEFAULT_LIST))));
+    }
+
+    @Test
+    public void contains_jobRoleSetAllNotInList_returnsFalse() {
+        assertFalse(uniqueJobRoleList.containsAll(new HashSet<>(Arrays.asList(JOB_ROLES_NOT_IN_DEFAULT_LIST,
+                 JOB_ROLES_NOT_IN_DEFAULT_LIST_2))));
     }
 
     @Test

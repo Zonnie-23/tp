@@ -123,6 +123,11 @@ public class CommandTestUtil {
 
     public static final String INVALID_SCHEDULE_END_TIME_DESC = " " + PREFIX_SCHEDULE + VALID_DATE + " "
             + VALID_START_TIME + " " + INVALID_END_TIME;
+
+    public static final String INVALID_SCHEDULE_DURATION_DESC = " " + PREFIX_SCHEDULE + VALID_DATE + " "
+            + "13:00 13:01";
+    public static final String INVALID_SCHEDULE_DURATION_DESC_2 = " " + PREFIX_SCHEDULE + VALID_DATE + " "
+            + "13:00 17:01";
     public static final String INVALID_MODE_DESC = " " + PREFIX_MODE + INVALID_MODE;
     public static final String INVALID_CANDIDATE_INDEX_DESC = PREFIX_CANDIDATE + "-2";
 

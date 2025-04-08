@@ -76,6 +76,13 @@ public class Person {
         return Collections.unmodifiableSet(jobRoles);
     }
 
+    /**
+     * Reset JobRole to just a single `UNRECOGNISED`. This is only to be used by JsonSerializableAddressBook
+     */
+    public void resetJobRoles() {
+        jobRoles.clear();
+        jobRoles.add(new JobRole("UNRECOGNISED"));
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

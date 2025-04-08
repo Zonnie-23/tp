@@ -8,6 +8,8 @@ import static java.util.Objects.requireNonNull;
  */
 public class Remark {
 
+    public static final int MAX_REMARK_LENGTH = 150;
+
     public final String value;
 
     /**

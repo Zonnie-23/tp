@@ -43,9 +43,9 @@ public class CandidateFullDetailsCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
-    private FlowPane jobRoles;
+    private Label remark;
     @FXML
-    private FlowPane remark;
+    private FlowPane jobRoles;
     @FXML
     private FlowPane tags;
     @FXML
@@ -95,8 +95,9 @@ public class CandidateFullDetailsCard extends UiPart<Region> {
 
         String remarkValue = person.getRemark().value;
         if (!remarkValue.isEmpty()) {
-            Label remarkLabel = createLabel(String.format(MESSAGE_REMARK, remarkValue));
-            remark.getChildren().add(remarkLabel);
+            this.showRemark(remarkValue);
+        } else {
+            this.hideRemark();
         }
 
         person.getJobRoles().stream()
@@ -112,6 +113,16 @@ public class CandidateFullDetailsCard extends UiPart<Region> {
         Label uiLabel = new Label(text);
         uiLabel.getStyleClass().addAll(CandidateFullDetailsCard.STYLE_LABEL);
         return uiLabel;
+    }
+
+    private void showRemark(String text) {
+        this.remark.setText(String.format(MESSAGE_REMARK, text));
+        this.remark.setVisible(true);
+    }
+
+    private void hideRemark() {
+        this.remark.setText(String.format(MESSAGE_REMARK, ""));
+        this.remark.setVisible(false);
     }
 
     /**
@@ -140,7 +151,7 @@ public class CandidateFullDetailsCard extends UiPart<Region> {
         email.setText("");
         label.getChildren().clear();
         jobRoles.getChildren().clear();
-        remark.getChildren().clear();
         tags.getChildren().clear();
+        this.hideRemark();
     }
 }

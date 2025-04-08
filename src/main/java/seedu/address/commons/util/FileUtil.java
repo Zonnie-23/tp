@@ -13,6 +13,8 @@ import java.nio.file.Paths;
  */
 public class FileUtil {
 
+    public static final String FILE_EXTENSION_JSON = ".json";
+
     private static final String CHARSET = "UTF-8";
 
     public static boolean isFileExists(Path file) {

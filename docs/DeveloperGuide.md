@@ -131,23 +131,24 @@ How the parsing works:
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2425S2-CS2103T-T16-3/tp/blob/master/src/main/java/seedu/address/model/Model.java)
 
-<puml src="diagrams/ModelClassDiagram.puml" width="550" />
+<puml src="diagrams/ModelClassDiagram.puml" width="450" />
+
 
 The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* stores `Schedule` objects as a separate list which is exposed to outsiders as an unmodifiable `ObservableList<Schedule>` that can be observed.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
 
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `JobRole` list in the `AddressBook`, which `Person` references. <br>
+**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
 </box>
+
 
 ### Storage component
 
@@ -176,7 +177,7 @@ This section describes some noteworthy details on how certain features are imple
 </box>
 
 ### Add Candidate and Add Interview Schedule feature
-The Add Candidate and Add Schedule features both adhere to the Logic Component format described [above](#logic-component) and share a similar implementation structure.
+The Add Candidate and Add Schedule features both adhere to the Logic Component format described [above](#logic-component) and share a similar implementation structure. 
 As an example, below is the sequence diagram for the Add Candidate command when the user inputs:
 `add n/Vish p/1293123 e/sample@domain.com a/213123 street j/ProData guy l/Rejected`
 <puml src="diagrams/AddSequenceDiagram.puml" width="650" />
@@ -220,7 +221,7 @@ Main execution steps:
 
 <box type="info" header="**Note**">
 
-The implementation of the List Candidates feature is similar to that of the example given above. However, instead of `setAddressBook(...)` method of the Model Component being called, `updateFilteredPersonList(...)` is called.
+The implementation of the List Candidates feature is similar to that of the example given above. However, instead of `setAddressBook(...)` method of the Model Component being called, `updateFilteredPersonList(...)` is called. 
 For Listing and Clearing schedules, the methods `updateFilteredScheduleList(...)` and `setScheduleBoard(...)` in Model component will be called respectively.
 </box>
 
@@ -234,13 +235,13 @@ component _can_ be used to store data manually, there are some limitations:
   when the user only wishes to save data to a particular location at a particular point in time (and they do not necessarily wish to permanently save
   the data to this chosen location).
 - A workaround will be to implement the methods of `UserPrefsStorage`, and return dummy values like `Optional#empty()` for `readUserPrefs()` or an empty String for `getUserPrefsFilePath()`<br>
-    - But this sounds more like we are forced to adhere to the contract of `UserPrefsStorage`.
+  - But this sounds more like we are forced to adhere to the contract of `UserPrefsStorage`.
 - The alternative will be to create a new storage component for manual storage: `ManualStorage`
-    - This interface will inherit from only `AddressBookStorage` and `ScheduleBoardStorage`.
-    - A separate manager class, `ManualStorageManager`, will implement `ManualStorage` and implement methods for reading and writing data pertaining to candidates and interview schedules.
-    - While this looks very similar to `Storage` and `StorageManager`, the benefit is that, to store data manually, classes and objects no longer have to worry about dealing with user preferences.
+  - This interface will inherit from only `AddressBookStorage` and `ScheduleBoardStorage`.
+  - A separate manager class, `ManualStorageManager`, will implement `ManualStorage` and implement methods for reading and writing data pertaining to candidates and interview schedules.
+  - While this looks very similar to `Storage` and `StorageManager`, the benefit is that, to store data manually, classes and objects no longer have to worry about dealing with user preferences.
 - The class diagram below depicts the relationship described:
-  <puml src="diagrams/ManualStorageClassDiagram.puml" width="650" />
+<puml src="diagrams/ManualStorageClassDiagram.puml" width="650" />
 
 ### The theme command
 
@@ -249,19 +250,25 @@ The `theme` command was implemented _after_ the theme button.
 
 - This command is implemeted using the `themeCommand` and `Theme` classes and it is similar to the handling of the other commands to some extent.
 - Implementation:
-    - It makes use command architecture that other components also use. It has its seperate `themeCommandParser` class and the
-      `themeCommand`class's exectue method returns a `commandResult`.
-    - This is handled by the logic component similar to the rest however in the below PML diagram the UI-Logic interaction is also shown
-      below as it is actually the MainWindow class that is responsible for resetting the stylesheets using its handleTheme() method, which is why the UI component
-      was included here as oppossed to other diagrams like that of the deleteCommand.
-    - It is also good to note that it is saved the same way that `GUISettings` are saved through the `UserPrefs` class along with relevant methods to execute the same.
+  - It makes use command architecture that other components also use. It has its seperate `themeCommandParser` class and the
+    `themeCommand`class's exectue method returns a `commandResult`.
+  - This is handled by the logic component similar to the rest however in the below PML diagram the UI-Logic interaction is also shown
+    below as it is actually the MainWindow class that is responsible for resetting the stylesheets using its handleTheme() method, which is why the UI component
+    was included here as oppossed to other diagrams like that of the deleteCommand.
+  - It is also good to note that it is saved the same way that `GUISettings` are saved through the `UserPrefs` class along with relevant methods to execute the same.                         
 
 ![Theme Command](images/themeCommandSequenceDiagram.png)
 
 ### \[Proposed\] Data archiving
 
-_{Explain here how the data archiving feature will be implemented}_
-
+- The foundation for this feature has already been laid in v1.5.
+- With the introduction of the save feature, the user already has a way of archiving data that they wish to.
+- However, improvements could be made to better enhance the archive feature.
+- Here are some improvements that can help to improve this feature (this list is not exhaustive):
+  - Update the displayed list of candidates to indicate which candidates have been archived (for the user's reference)
+  - Have a unique archive name format that contains the date (and perhaps time) on which the archive was performed
+  - Have a separate command for simply archiving user data
+    - This could act as an alias for a specialised use case of the `save` command
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -299,14 +306,12 @@ candidates to their company compared to traditional methods. It is optimized for
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-
 | Priority | As a …​  | I want to …​                                                              | So that I can…​                                                             |
 |----------|----------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------|
 | `* * *`  | user     | add a new applicant's contact details                                     | start adding new applicant's details into the application quickly           |
 | `* * *`  | user     | list all applicants' contact                                              | verify the stored data                                                      |
 | `* * *`  | user     | delete applicant's contact                                                | remove applicants that are no longer applying for a job                     |
 | `* * *`  | user     | exit the application                                                      |                                                                             |
-| `* *`    | user     | label a candidates application status                                     | keep track of applicants status and prioritise those who are yet unreviewed |
 | `* *`    | user     | have all my applicant's contact saved automatically                       | use the application without losing any changes made                         |
 | `* *`    | user     | find an applicant's contact                                               | locate details of persons without having to go through the entire list      |
 | `* *`    | new user | view usage instructions                                                   | refer to instructions when I forget how to use the application              |
@@ -338,9 +343,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. The list is empty.
-    * 2a1. Notify user about the empty list.
 
-  Use case ends.
+   * 2a1. Notify user about the empty list.
+
+     Use case ends.
 
 ---
 
@@ -355,9 +361,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Extensions**
 
 * 2a. Duplicate candidate.
+
     * 2a1. QuickHire shows an error message.
 
-  Use case ends.
+      Use case ends.
 
 * 2b. The given parameters are invalid
     * 2b1. QuickHire shows an invalid parameter error message.
@@ -408,7 +415,7 @@ Use case ends.
 1.  User requests to edit details of a specific candidate in the list
 1.  QuickHire edits the specified details
 
-Use case ends.
+   Use case ends.
 
 **Extension**
 
@@ -593,7 +600,7 @@ Use case ends.
 
 * 2c. The given parameters are invalid.
 
-    * 2c1. QuickHire shows an error message.
+   * 2c1. QuickHire shows an error message.
 
       Use case ends
 
@@ -675,6 +682,7 @@ testers are expected to do more *exploratory* testing.
 
 </box>
 
+
 ### Launch and shutdown
 
 1. Initial launch
@@ -711,108 +719,105 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding a schedule that does not overlap with existing schedule
 
-    1. Prerequisites: Interview schedule with date and duration `2025-05-03 09:00 10:00` exists and there is at least 1 candidate in the candidate list.
-    1. Test case: `sadd c/1 s/2025-05-03 15:00 17:00 m/online` <br>
-       Expected: Schedule with date and duration `2025-05-03 15:00 17:00`, mode `online` along with the name and email of first candidate is created. Details of the schedule created is shown in the message box. Schedule board shows newly created schedule.
+   1. Prerequisites: Interview schedule with date and duration `2025-05-03 09:00 10:00` exists and there is at least 1 candidate in the candidate list.
+   1. Test case: `sadd c/1 s/2025-05-03 15:00 17:00 m/online` <br>
+      Expected: Schedule with date and duration `2025-05-03 15:00 17:00`, mode `online` along with the name and email of first candidate is created. Details of the schedule created is shown in the message box. Schedule board shows newly created schedule.
 
 1. Adding a schedule that overlap with existing schedule
-    1. Prerequisites: Interview schedule with date and duration `2025-05-16 14:00 16:00` exist and there are at least 1 candidate in the candidate list.
-    1. Test case: `sadd c/1 s/2025-05-16 14:00 15:00 m/online` <br>
-       Expected: Schedule is not added to the schedule board. Error message is shown in the message box.
+   1. Prerequisites: Interview schedule with date and duration `2025-05-16 14:00 16:00` exist and there are at least 1 candidate in the candidate list.
+   1. Test case: `sadd c/1 s/2025-05-16 14:00 15:00 m/online` <br>
+      Expected: Schedule is not added to the schedule board. Error message is shown in the message box.
 
 ### Editing a schedule
 
 1. Editing one or more details of a schedule
 
-    1. Prerequisites: Interview schedule with date and duration `2025-05-03 15:00 17:00` does not exist and the mode of first interview schedule in the list is online.
-    1. Test case: `sedit 1 s/2025-05-03 15:00 17:00`<br>
-
-       Expected: Date and duration of the first schedule is changed to `2025-05-03 15:00 17:00`. Details of the edited schedule is shown in the message box. Schedule board shows newly edited schedule.
-    1. Test case: `sedit 1 m/offline`<br>
-
-       Expected: Mode of the first schedule is changed to `offline`. Details of the edited schedule is shown in the message box. Schedule board shows newly edited schedule.
+   1. Prerequisites: Interview schedule with date and duration `2025-05-03 15:00 17:00` does not exist and the mode of first interview schedule in the list is online.
+   1. Test case: `sedit 1 s/2025-05-03 15:00 17:00`<br>
+   
+      Expected: Date and duration of the first schedule is changed to `2025-05-03 15:00 17:00`. Details of the edited schedule is shown in the message box. Schedule board shows newly edited schedule.
+   1. Test case: `sedit 1 m/offline`<br>
+   
+      Expected: Mode of the first schedule is changed to `offline`. Details of the edited schedule is shown in the message box. Schedule board shows newly edited schedule.
 
 1. Editing date and duration of a schedule to clash with another schedule in the schedule board
 
-    1. Prerequisites: Schedule with date and duration `2025-05-04 14:00 15:00` exists
-    1. Test case: `sedit 1 s/2025-05-04 14:00 14:30` <br>
+   1. Prerequisites: Schedule with date and duration `2025-05-04 14:00 15:00` exists
+   1. Test case: `sedit 1 s/2025-05-04 14:00 14:30` <br>
 
-       Expected: Date and duration of first schedule is not updated. Error message is shown in the message box.
+      Expected: Date and duration of first schedule is not updated. Error message is shown in the message box.
 
 ### Deleting a schedule
 
 1. Deleting a schedule while all schedules are being shown
 
-    1. Prerequisites: List all schedule using the `slist` command. Multiple schedules in the list.
+   1. Prerequisites: List all schedule using the `slist` command. Multiple schedules in the list.
 
-    1. Test case: `sdelete 1`<br>
-       Expected: First schedule is deleted from the list. Details of the deleted schedule shown in the status message.
+   1. Test case: `sdelete 1`<br>
+      Expected: First schedule is deleted from the list. Details of the deleted schedule shown in the status message.
 
-    1. Test case: `sdelete 0`<br>
-       Expected: No schedule is deleted. Error details shown in the status message.
+   1. Test case: `sdelete 0`<br>
+      Expected: No schedule is deleted. Error details shown in the status message.
 
-    1. Other incorrect delete commands to try: `sdelete`, `sdelete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+   1. Other incorrect delete commands to try: `sdelete`, `sdelete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
 
 ### Manually Saving data
 
 1. Manually saving the data of the program
 
-    1. Prerequisites: You should have sufficient write permissions to the file path you are saving the data to.
+   1. Prerequisites: You should have sufficient write permissions to the file path you are saving the data to.
 
-    1. Test case: `save c/candidates.json s/schedules.json`<br>
-        - Expected (if both files do not exist): Two json files, `[JAR file location]/candidates.json` and `[JAR file location]/schedules.json`, should be created with the corresponding filtered candidates and schedules data respectively.
-        - Expected (if `[JAR file location]/candidates.json` exists): An error message specifying that `[JAR file location]/candidates.json` exists.
-        - Expected (if `[JAR file location]/schedules.json`): An error message specifying that `[JAR file location]/schedules.json` exists.
-        - Expected (if both files exist): An error message specifying that `[JAR file location]/candidates.json` exists.
-            - Reason: The save command processes the candidates file first, then the schedules file, regardless of the order in which the parameters were typed in.
+   1. Test case: `save c/candidates.json s/schedules.json`<br>
+      - Expected (if both files do not exist): Two json files, `[JAR file location]/candidates.json` and `[JAR file location]/schedules.json`, should be created with the corresponding filtered candidates and schedules data respectively.
+      - Expected (if `[JAR file location]/candidates.json` exists): An error message specifying that `[JAR file location]/candidates.json` exists.
+      - Expected (if `[JAR file location]/schedules.json`): An error message specifying that `[JAR file location]/schedules.json` exists.
+      - Expected (if both files exist): An error message specifying that `[JAR file location]/candidates.json` exists.
+        - Reason: The save command processes the candidates file first, then the schedules file, regardless of the order in which the parameters were typed in.
 
-    1. Test case: `save c/candidates.json`<br>
-        - Expected (file does not exist): A single json file, `[JAR file location]/candidates.json` should be created with the corresponding filtered candidates data.
-        - Expected (file exists): An error message specifying that `[JAR file location]/candidates.json` exists.
+   1. Test case: `save c/candidates.json`<br>
+      - Expected (file does not exist): A single json file, `[JAR file location]/candidates.json` should be created with the corresponding filtered candidates data.
+      - Expected (file exists): An error message specifying that `[JAR file location]/candidates.json` exists.
 
-    1. Test case: `save s/schedules.json`<br>
-        - Expected (file does not exist): A single json file, `[JAR file location]/schedules.json`, should be created with the corresponding schedules data.
-        - Expected (file exists): An error message specifying that `[JAR file location]/schedules.json` exists.
+   1. Test case: `save s/schedules.json`<br>
+      - Expected (file does not exist): A single json file, `[JAR file location]/schedules.json`, should be created with the corresponding schedules data.
+      - Expected (file exists): An error message specifying that `[JAR file location]/schedules.json` exists.
 
-    1. Test case: `save c/candidates.json s/schedules.json /f`<br>
-        - Expected: Two json files, `[JAR file location]/candidates.json` and `[JAR file location]/schedules.json`, should be created with the corresponding filtered candidates and schedules data respectively.
+   1. Test case: `save c/candidates.json s/schedules.json /f`<br>
+      - Expected: Two json files, `[JAR file location]/candidates.json` and `[JAR file location]/schedules.json`, should be created with the corresponding filtered candidates and schedules data respectively.
 
-    1. Test case: `save c/candidates.json /f`<br>
-        - Expected: A single json file, `[JAR file location]/candidates.json` should be created with the corresponding filtered candidates data.
+   1. Test case: `save c/candidates.json /f`<br>
+      - Expected: A single json file, `[JAR file location]/candidates.json` should be created with the corresponding filtered candidates data.
 
-    1. Test case: `save s/schedules.json /f`<br>
-        - Expected: A single json file, `[JAR file location]/schedules.json`, should be created with the corresponding schedules data.
+   1. Test case: `save s/schedules.json /f`<br>
+      - Expected: A single json file, `[JAR file location]/schedules.json`, should be created with the corresponding schedules data.
 
-    1. Test case: `save c/candidates.json /f` with and without `/a` flag<br>
-        - Prerequisite: Candidate data has been filtered using the `find` command
-        - Expected: A single json file, `[JAR file location]/candidates.json`, should be created with the corresponding _filtered_ candidates data.
-        - Repeat the command with `/a` flag without running `list`: `save c/candidate.json /f /a`
-        - Expected: A single json file, `[JAR file location]/candidates.json`, should be created with _all_ corresponding candidates data.
+   1. Test case: `save c/candidates.json /f` with and without `/a` flag<br>
+       - Prerequisite: Candidate data has been filtered using the `find` command
+       - Expected: A single json file, `[JAR file location]/candidates.json`, should be created with the corresponding _filtered_ candidates data.
+       - Repeat the command with `/a` flag without running `list`: `save c/candidate.json /f /a`
+       - Expected: A single json file, `[JAR file location]/candidates.json`, should be created with _all_ corresponding candidates data.
 
-    1. Test case: `save`<br>
-        - Expected: Error message displayed, specifying the command format.
+   1. Test case: `save`<br>
+      - Expected: Error message displayed, specifying the command format.
 
 ### Theme command
 
 1. Changing the theme of the program.
-    1. Prerequisites: none
+   1. Prerequisites: none
 
-    1. Test case: `theme light`<br>
-       Expected: UI switches to light theme. Help window switches to light theme. Viewstats command switches theme to light theme. Theme Changed message displayed.<br>
-       Note: The same may be repeated for `theme dark`.
+   1. Test case: `theme light`<br>
+   Expected: UI switches to light theme. Help window switches to light theme. Viewstats command switches theme to light theme. Theme Changed message displayed.<br>
+   Note: The same may be repeated for `theme dark`.
 
-    1. Test case: `theme blue` <br>
-       Expected: Error message displayed, theme does not change.
+   1. Test case: `theme blue` <br>
+   Expected: Error message displayed, theme does not change.
 
 
 1. Change theme is saved.
 
-    1. Test case: `theme light` followed by `exit` . Reopen the jar file. <br>
-       Expected: Theme is saved as theme light when you open.
-
-1. _{ more test cases …​ }_
-
+   1. Test case: `theme light` followed by `exit` . Reopen the jar file. <br>
+    Expected: Theme is saved as theme light when you open.
 
 ## **Appendix: Effort**
 * **Difficulty level:**
@@ -828,6 +833,28 @@ testers are expected to do more *exploratory* testing.
       To ensure robustness and maintainability, we prioritized comprehensive testing and strict adherence to coding standards. Driven by passion and a commitment to learning, we consistently went the extra mile throughout development.
 * **Achievements:**
     - Introduce new schedule features that allow user to create and maintain interview schedules for candidates.
+
+
+## **Appendix: Effort**
+* **Difficulty level:** 
+QuickHire is considerably challenging because of the integration of additional entities and the complexity of managing the relationships between them.
+
+* **Challenges faced:** 
+  - Additional entity: The project introduces new entity `Schedule` and connects it with `Person` through `Name` and `Email`.
+  - Feature Development: To support the new Schedule entity, we had to develop several new core features, such as adding schedule, editing schedule, deleting schedule, listing schedule and clearing schedule.
+  - User Interface Enhancements: To make the application more intuitive and user‑friendly, we revamped the GUI—adding dedicated schedule sections and refining the overall design for a smoother, more cohesive experience.
+
+* **Effort required:**
+  - We estimate the project demanded as equal as the anticipated effort because of the added entities and expanded features. 
+  To ensure robustness and maintainability, we prioritized comprehensive testing and strict adherence to coding standards. Driven by passion and a commitment to learning, we consistently went the extra mile throughout development.
+* **Achievements:** 
+  - Introduce new schedule features that allow user to create and maintain interview schedules for candidates.
+
+## **Appendix: Planned Enhancements**
+Team size: 5
+
+1. Restrict interview dates to a reasonable range. Currently, users can schedule interviews for dates very far in the past or future. We plan to apply a constraint that the user may only schedule interview date that is within 20 years before or after current date.
+2. The current implementation cannot verify whether an interview that spans midnight (i.e., crosses two consecutive days) has a duration between 15 minutes and 4 hours. We plan to add a check to ensure that any interview for the same candidate crossing into the next day also falls within that 15‑minute to 4‑hour window.
 
 ## **Appendix: Planned Enhancements**
 Team size: 5

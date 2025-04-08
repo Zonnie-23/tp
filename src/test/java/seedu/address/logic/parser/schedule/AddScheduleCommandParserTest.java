@@ -2,9 +2,12 @@ package seedu.address.logic.parser.schedule;
 
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_SCHEDULE_INVALID_DURATION;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_CANDIDATE_INDEX_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_MODE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_DATE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_DURATION_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_DURATION_DESC_2;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_END_TIME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_SCHEDULE_START_TIME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
@@ -94,9 +97,17 @@ public class AddScheduleCommandParserTest {
         assertParseFailure(parser, VALID_CANDIDATE_INDEX_DESC + INVALID_SCHEDULE_START_TIME_DESC
                         + VALID_MODE_DESC, MESSAGE_INVALID_TIME);
 
-        // invalid startTime
+        // invalid endTime
         assertParseFailure(parser, VALID_CANDIDATE_INDEX_DESC + INVALID_SCHEDULE_END_TIME_DESC
                         + VALID_MODE_DESC, MESSAGE_INVALID_TIME);
+
+        // invalid duration
+        assertParseFailure(parser, VALID_CANDIDATE_INDEX_DESC + INVALID_SCHEDULE_DURATION_DESC
+                + VALID_MODE_DESC, MESSAGE_SCHEDULE_INVALID_DURATION);
+
+        // invalid duration
+        assertParseFailure(parser, VALID_CANDIDATE_INDEX_DESC + INVALID_SCHEDULE_DURATION_DESC_2
+                + VALID_MODE_DESC, MESSAGE_SCHEDULE_INVALID_DURATION);
 
         // invalid mode
         assertParseFailure(parser, VALID_CANDIDATE_INDEX_DESC + VALID_SCHEDULE_DESC
@@ -112,5 +123,11 @@ public class AddScheduleCommandParserTest {
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + VALID_CANDIDATE_INDEX_DESC + VALID_SCHEDULE_DESC
                         + VALID_MODE_DESC,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddScheduleCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_noArgs_throwsParseException() {
+        assertParseFailure(parser, "", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddScheduleCommand.MESSAGE_USAGE));
     }
 }

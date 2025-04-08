@@ -124,7 +124,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public boolean hasJobRoles(Set<JobRole> jobRoles) {
         requireNonNull(jobRoles);
-        return jobRoles.stream().allMatch(this.jobRoles::contains);
+        return this.jobRoles.containsAll(jobRoles);
     }
 
     /**

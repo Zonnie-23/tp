@@ -41,6 +41,9 @@ public class AddScheduleCommandParser implements Parser<AddScheduleCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public AddScheduleCommand parse(String args) throws ParseException {
+        if (args.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddScheduleCommand.MESSAGE_USAGE));
+        }
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_CANDIDATE, PREFIX_SCHEDULE, PREFIX_MODE);
 

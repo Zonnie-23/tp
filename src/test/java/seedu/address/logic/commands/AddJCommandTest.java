@@ -46,7 +46,7 @@ public class AddJCommandTest {
 
         CommandResult commandResult = addJCommand.execute(modelStub);
 
-        String expectedMessage = String.format(AddJCommand.MESSAGE_SUCCESS, JOB_ROLES_NOT_IN_DEFAULT_LIST);
+        String expectedMessage = String.format(AddJCommand.MESSAGE_SUCCESS, JOB_ROLES_NOT_IN_DEFAULT_LIST.value);
         assertEquals(expectedMessage, commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(JOB_ROLES_NOT_IN_DEFAULT_LIST), modelStub.jobRoleAdded);
     }

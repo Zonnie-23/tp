@@ -14,13 +14,15 @@ public class JobRole {
             + "Use listJ to list all job roles in saved list.";
 
     public static final String MESSAGE_NEW_CONSTRAINTS =
-            "Invalid job role! Job role should only contain alphanumeric characters, \"(\", \")\" and spaces.";
+            "Invalid job role! Job role should only contain alphanumeric characters, round brackets: () and spaces.";
 
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
     public static final String VALIDATION_REGEX = "[\\p{Alnum}()][\\p{Alnum}() ]*";
+
+    public static final int MAX_LENGTH = 30;
 
     public final String value;
 
@@ -66,7 +68,7 @@ public class JobRole {
         }
 
         JobRole otherName = (JobRole) other;
-        return value.equals(otherName.value);
+        return value.equalsIgnoreCase(otherName.value);
     }
 
     @Override

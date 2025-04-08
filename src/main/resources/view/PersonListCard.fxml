@@ -32,7 +32,7 @@
             <Label fx:id="email" styleClass="cell_small_label" text="\$email"/>
             <Label fx:id="label" styleClass="cell_small_label" text="\$label"/>
             <FlowPane fx:id="jobRoles" />
-            <FlowPane fx:id="remark"/>
+            <Label fx:id="remark" styleClass="cell_small_label" visible="false" wrapText="true" text="\$remark"/>
         </VBox>
         <rowConstraints>
             <RowConstraints/>

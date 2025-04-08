@@ -22,7 +22,12 @@ public class Messages {
     public static final String MESSAGE_FILE_EXISTS = "File at '%1$s' already exists!";
     public static final String MESSAGE_SCHEDULE_START_TIME_BEFORE_END_TIME =
             "The end time of the interview schedule should be strictly later than "
-                    + "start time of the interview schedule.";
+                    + "start time of the interview schedule. \n"
+                    + "End time of interview schedule must be at least 15 minutes after start time and "
+                    + "no more than 4 hours later";;
+    public static final String MESSAGE_SCHEDULE_INVALID_DURATION =
+            "End time of interview schedule must be at least 15 minutes after start time and "
+                    + "no more than 4 hours later";
     public static final String MESSAGE_SCHEDULE_TIMING_CLASH =
             "This interview schedule's timing conflicts with an existing interview schedule. \n"
                     + "The schedule board supports only non-overlapping intervals. \n"

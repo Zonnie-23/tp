@@ -23,7 +23,7 @@ public class RemarkCommand extends Command {
             + "by the index number used in the last person listing. "
             + "Existing remark will be overwritten by the input.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "r/[REMARK]\n"
+            + "[r/[REMARK]]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + "r/Likes to code.";
     public static final String MESSAGE_ADD_REMARK_SUCCESS = "Added remark to Person: %1$s";

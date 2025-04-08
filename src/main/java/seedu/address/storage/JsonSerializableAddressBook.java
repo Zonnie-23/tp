@@ -53,13 +53,6 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
-            if (addressBook.hasPerson(person)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
-            }
-            addressBook.addPerson(person);
-        }
         addressBook.setJobRoles(new ArrayList<>());
         for (JsonAdaptedJobRole jsonAdaptedJobRoles : jobRoles) {
             JobRole jobRole = jsonAdaptedJobRoles.toModelType();
@@ -67,6 +60,16 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_JOBROLE);
             }
             addressBook.addJobRole(jobRole);
+        }
+        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
+            Person person = jsonAdaptedPerson.toModelType();
+            if (addressBook.hasPerson(person)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+            }
+            if (!addressBook.hasJobRoles(person.getJobRoles())) {
+                person.resetJobRoles();
+            }
+            addressBook.addPerson(person);
         }
         return addressBook;
     }

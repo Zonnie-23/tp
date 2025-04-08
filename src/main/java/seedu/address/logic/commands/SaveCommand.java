@@ -111,14 +111,14 @@ public class SaveCommand extends Command {
      * Helper method to get address book file path
      */
     private Path getAddressBookFilePath() {
-        return this.storage.getAddressBookFilePath();
+        return this.storage.getAddressBookFilePath().toAbsolutePath().normalize();
     }
 
     /**
      * Helper method to get schedule board file path
      */
     private Path getScheduleBoardFilePath() {
-        return this.storage.getScheduleBoardFilePath();
+        return this.storage.getScheduleBoardFilePath().toAbsolutePath().normalize();
     }
 
     private String saveAddressBookAndGetMessage(Model model) throws CommandException, IOException {

@@ -30,9 +30,9 @@ public class AddScheduleCommand extends Command {
 
     public static final String COMMAND_WORD = "sadd";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an interview schedule to board. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an interview schedule to board. \n"
             + "Parameters: "
-            + PREFIX_CANDIDATE + "CANDIDATE_INDEX (must be a positive integer) "
+            + PREFIX_CANDIDATE + "INDEX (must be a positive integer) "
             + PREFIX_SCHEDULE + "SCHEDULE_DATE_AND_DURATION "
             + PREFIX_MODE + "MODE\n"
             + "Example: " + COMMAND_WORD + " "

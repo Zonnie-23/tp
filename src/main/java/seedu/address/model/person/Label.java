@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Label {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Labels can only be Unreviewed (U), Accepted (A), Rejected (R) or Shortlisted(S)";
+            "Labels can only be Unreviewed, Accepted, Rejected or Shortlisted";
 
     public static final String VALIDATION_REGEX = "^(Unreviewed|Accepted|Rejected|Shortlisted)$";
 
