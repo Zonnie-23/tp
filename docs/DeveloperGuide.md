@@ -780,6 +780,41 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding a candidate
+1. Adding a person while all candidates are being shown (valid and invalid)
+
+    1. Prerequisites: No entry below is already in the candidate list.
+
+    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/Unreviewed r/Likes to code t/friends t/owesMoney`<br>
+       Expected: Candidate is added to list. Details of the added contact shown in the result box.
+
+    1. Test case: `add`<br>
+       Expected: No candidate is added. General error details shown in the result box.
+
+    1. Test case: `add n/Vish p/1293123 e/sample@domain.com a/213123 street l/Rejected`
+       Expected: No candidate is added. Specific error message detailing missing fields shown. (Job Role missing)
+
+1. Adding a person : Testing duplicate entries
+
+    1. Prerequisites: The same person is already in the candidate list.
+
+    1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/Unreviewed r/Likes to code t/friends t/owesMoney`<br>
+       Expected: Candidate is already in list. Duplicate error message shown.
+
+1. Adding a person : Testing individual parameters
+
+    1. Prerequisites: The same person is already in the candidate list.
+    
+    1. Test case: `add n/John Who p/98765431 e/johnw@example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/funny r/Likes to code t/friends t/owesMoney`<br>
+       Expected: No candidate is added. Label is not in valid format error message shown.
+   
+    1. Test case: `add n/John Who p/98765431 e/yeetus.example.com a/311, Clementi Ave 2, #02-25 j/Data Scientist l/funny r/Likes to code t/friends t/owesMoney`<br>
+       Expected: No candidate is added. Email is not in valid format error message shown.
+   
+    1. The test cases may be repeated for all parameters in a similar fashion.
+
+1. _{ more test cases …​ }_
+
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
