@@ -927,3 +927,4 @@ Team size: 5
 
 1. Restrict interview dates to a reasonable range. Currently, users can schedule interviews for dates very far in the past or future. We plan to apply a constraint that the user may only schedule interview date that is within 20 years before or after current date.
 2. The current implementation cannot verify whether an interview that spans midnight (i.e., crosses two consecutive days) has a duration between 15 minutes and 4 hours. We plan to add a check to ensure that any interview for the same candidate crossing into the next day also falls within that 15‑minute to 4‑hour window.
+3. The current implementation also has an issue with proper verification of duplicate candidate. We plan to add an NRIC/Unique ID field to each candidate to ensure better duplicate handling.
