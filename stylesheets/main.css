@@ -94,8 +94,30 @@ mark {
 }
 
 /* Link to top of the page in UG */
-.ug-nav-top {
+.ug-pdf-nav-top {
   display: none;
+}
+
+.img-small {
+  max-width: 30%;
+}
+
+.img-medium {
+  max-width: 50%;
+}
+
+.img-large {
+  max-width: 75%;
+}
+
+.img-original-size {
+  max-width: 100%;
+}
+
+.img-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media screen and (max-width: 1299.98px) {
@@ -139,12 +161,57 @@ mark {
     display: none;
   }
 
-  .page-nav-print {
+  /* Reduce font size when printing */
+  h1 {
     font-size: 1.2rem !important;
   }
 
+  h2 {
+    font-size: 1.0rem !important;
+  }
+
+  h3 {
+    font-size: 0.9rem !important;
+  }
+
+  h4 {
+    font-size: 0.85rem !important;
+  }
+
+  h5 {
+    font-size: 0.8rem !important;
+  }
+
+  body {
+    font-size: 0.8rem !important;
+  }
+
+  .btn {
+    font-size: 0.8rem !important;
+  }
+
+  table {
+    font-size: 0.8rem !important;
+  }
+
+  .img-print-small {
+    max-width: 30%;
+  }
+
+  .img-print-medium {
+    max-width: 50%;
+  }
+
+  .img-print-large {
+    max-width: 75%;
+  }
+
+  .img-print-original-size {
+    max-width: 100%;
+  }
+
   /* Display link to go to the top of the page when printing */
-  .ug-nav-top {
+  .ug-pdf-nav-top {
     display: block;
     text-align: right;
   }

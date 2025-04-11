@@ -1,0 +1,80 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+actor User as user USER_COLOR
+
+box "UI" UI_COLOR_T1
+  participant "MainWindow" as MainWindow UI_COLOR
+  participant "CommandBox" as CommandBox UI_COLOR
+  participant "StatisticsWindow" as StatisticsWindow UI_COLOR
+end box
+
+box "Logic" LOGIC_COLOR_T1
+  participant "LogicManager" as LogicManager LOGIC_COLOR
+  participant "AddressBookParser" as AddressBookParser LOGIC_COLOR
+  participant "ViewStatsCommandParser" as ViewStatsCommandParser LOGIC_COLOR
+  participant "ViewStatsCommand" as ViewStatsCommand LOGIC_COLOR
+  participant "CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box "Model" MODEL_COLOR_T1
+  participant "Model" as Model MODEL_COLOR
+end box
+
+user -> CommandBox : "viewstats"
+activate CommandBox
+
+CommandBox -> MainWindow : executeCommand("viewstats")
+activate MainWindow
+
+MainWindow -> LogicManager : execute("viewstats")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("viewstats")
+activate AddressBookParser
+
+AddressBookParser -> ViewStatsCommandParser : parse("viewstats")
+activate ViewStatsCommandParser
+
+create ViewStatsCommand
+ViewStatsCommandParser -> ViewStatsCommand : <<create>>
+deactivate ViewStatsCommandParser
+AddressBookParser <-- ViewStatsCommandParser
+deactivate AddressBookParser
+
+LogicManager -> ViewStatsCommand : execute(Model)
+activate ViewStatsCommand
+
+ViewStatsCommand -> Model : getJobApplicantStatistics()
+activate Model
+Model --> ViewStatsCommand : stats
+deactivate Model
+
+ViewStatsCommand -> CommandResult : <<create>> new CommandResult(stats)
+create CommandResult
+ViewStatsCommand --> CommandResult : returns CommandResult
+deactivate CommandResult
+
+ViewStatsCommand --> LogicManager : CommandResult
+deactivate ViewStatsCommand
+
+LogicManager --> MainWindow : CommandResult
+deactivate LogicManager
+
+MainWindow -> StatisticsWindow : <<create>> new StatisticsWindow
+create StatisticsWindow
+activate StatisticsWindow
+
+MainWindow -> StatisticsWindow : setStatistics(stats, dynamicJobRoles)
+MainWindow -> StatisticsWindow : show()
+
+MainWindow -> StatisticsWindow : hide() & close
+destroy StatisticsWindow
+deactivate StatisticsWindow
+
+MainWindow --> CommandBox
+deactivate MainWindow
+deactivate CommandBox
+
+@enduml

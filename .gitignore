@@ -7,6 +7,7 @@ yarn-error.log*
 lerna-debug.log*
 _markbind/logs/
 
+
 # Dependency directories
 node_modules/
 
@@ -21,3 +22,7 @@ _site/
 .vscode/
 .idea/*
 *.iml
+
+# PDF'S
+DeveloperGuide.pdf
+UserGuide.pdf

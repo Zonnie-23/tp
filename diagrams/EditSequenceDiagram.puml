@@ -1,0 +1,126 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":EditCommandParser" as EditCommandParser LOGIC_COLOR
+participant ":EditPersonDescriptor" as EditPersonDescriptor LOGIC_COLOR
+participant ":EditCommand" as EditCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+participant ":Person" as Person MODEL_COLOR
+participant ":UniquePersonsList" as UniquePersonsList MODEL_COLOR
+end box
+
+participant "lastShownList:List" as List #6C3483
+
+[-> LogicManager : execute("edit 1 p/... e/...")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("edit 1 p/... e/...")
+activate AddressBookParser
+
+create EditCommandParser
+AddressBookParser -> EditCommandParser
+activate EditCommandParser
+
+EditCommandParser --> AddressBookParser
+deactivate EditCommandParser
+
+AddressBookParser -> EditCommandParser : parse("1 p/... e/...")
+activate EditCommandParser
+
+create EditPersonDescriptor
+EditCommandParser -> EditPersonDescriptor : EditTransactorDescriptor()
+activate EditPersonDescriptor
+
+EditPersonDescriptor --> EditCommandParser : editPersonDescriptor
+deactivate EditPersonDescriptor
+
+create EditCommand
+EditCommandParser -> EditCommand
+activate EditCommand
+
+EditCommand --> EditCommandParser : command
+deactivate EditCommand
+
+EditCommandParser --> AddressBookParser : command
+deactivate EditCommandParser
+
+[-[hidden]> EditCommand :
+destroy EditCommandParser
+
+AddressBookParser --> LogicManager : command
+deactivate AddressBookParser
+
+LogicManager -> EditCommand : execute()
+activate EditCommand
+
+EditCommand -> Model : getFilteredPersonsList()
+activate Model
+
+Model --> EditCommand : lastShownList
+deactivate Model
+
+EditCommand -> List : lastShownList.get(1)
+activate List
+
+List --> EditCommand : personToEdit
+deactivate List
+
+EditCommand -> EditCommand : createEditedPerson(\npersonToEdit, \neditPersonDescriptor)
+activate EditCommand
+
+EditCommand --> EditCommand : editedPerson
+deactivate EditCommand
+
+EditCommand -> Model : hasPerson(...)
+activate Model
+
+Model --> EditCommand
+deactivate Model
+
+EditCommand -> Model : hasJobRoles(...)
+activate Model
+
+Model --> EditCommand
+deactivate Model
+
+EditCommand -> Model : setPerson(\npersonToEdit, \neditedPerson)
+activate Model
+
+Model -> Person : setPerson(personToEdit, editedPerson)
+activate Person
+
+Person -> UniquePersonsList : setPerson(\npersonToEdit, \neditedPerson)
+activate UniquePersonsList
+
+UniquePersonsList --> Person
+deactivate UniquePersonsList
+
+Person --> Model
+deactivate Person
+
+Model --> EditCommand
+deactivate Model
+
+EditCommand -> Model : updateFilteredPersons()
+activate Model
+
+Model --> EditCommand
+deactivate Model
+
+LogicManager <--EditCommand :
+deactivate EditCommand
+
+[<-- LogicManager :
+deactivate LogicManager
+
+[<-[hidden]-EditCommand
+destroy EditCommand
+destroy EditPersonDescriptor
+
+@enduml

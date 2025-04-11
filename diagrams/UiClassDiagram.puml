@@ -62,17 +62,20 @@ HelpWindow --|> UiPart
 ScheduleCard --|> UiPart
 ScheduleListPanel --|> UiPart
 
-PersonCard ..> HiddenModel
+PersonCard ..> Model
 FullDetailsCard ..> Model
 ScheduleCard ..> Model
-MainWindow -right-> HiddenLogic
+MainWindow -right-> Logic
 UiManager -right-> Logic
 
-FullDetailsCard -[hidden]left- ScheduleListPanel
+FullDetailsCard -[hidden]down- ScheduleListPanel
 ScheduleListPanel -[hidden]left- PersonListPanel
+ScheduleListPanel -[hidden]down- PersonListPanel
 PersonListPanel -[hidden]left- CommandBox
-CommandBox -[hidden]left- ResultDisplay
+CommandBox -[hidden]up- ResultDisplay
+ResultDisplay -[hidden]down- StatusBarFooter
 ResultDisplay -[hidden]left- StatusBarFooter
+StatusBarFooter -[hidden]up- HelpWindow
 StatusBarFooter -[hidden]left- HelpWindow
 
 HiddenOutside3 -[hidden]down- HiddenBox3
